@@ -30,7 +30,7 @@ fun CartScreen(
     cartViewModel: CartViewModel = viewModel()
 ) {
     val cartItems by cartViewModel.cartItems.collectAsState()  // Lấy danh sách sản phẩm trong giỏ hàng
-    val totalPrice = cartViewModel.updateTotalPrice()  // Tính tổng giá
+    val totalPrice = cartViewModel.getTotalPrice()  // Tính tổng giá
 
     LaunchedEffect(Unit) {
         // Lấy giỏ hàng của người dùng khi màn hình được hiển thị

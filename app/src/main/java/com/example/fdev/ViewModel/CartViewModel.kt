@@ -42,7 +42,7 @@ class CartViewModel : ViewModel() {
                                     image = cartProduct.image ?: ""
                                 )
                             }
-                            updateTotalPrice() // Cập nhật tổng giá trị giỏ hàng sau khi lấy sản phẩm
+                            getTotalPrice() // Cập nhật tổng giá trị giỏ hàng sau khi lấy sản phẩm
                         }
                     } else {
                         Log.e("CartViewModel", "Error getting cart: ${response.code()} - ${response.message()}")
@@ -92,7 +92,7 @@ class CartViewModel : ViewModel() {
                     val response = apiService.removeFromCart(userName, productName)
                     if (response.isSuccessful) {
                         _cartItems.value = _cartItems.value.filter { it.name != productName }
-                        updateTotalPrice() // Cập nhật tổng giá trị giỏ hàng
+                        getTotalPrice() // Cập nhật tổng giá trị giỏ hàng
                     } else {
                         Log.e("CartViewModel", "Error removing from cart: ${response.code()} - ${response.message()}")
                     }
@@ -106,8 +106,10 @@ class CartViewModel : ViewModel() {
     }
 
     // Cập nhật tổng giá trị giỏ hàng
-    fun updateTotalPrice() {
-        _totalPrice.value = _cartItems.value.sumOf { it.price.toDouble() }
+
+
+    fun getTotalPrice(): Double {
+        return _cartItems.value.sumOf { it.price.toDouble() }
     }
 
     // Thêm sản phẩm vào giỏ hàng và cập nhật UI
@@ -128,7 +130,7 @@ class CartViewModel : ViewModel() {
                                 price = product.price,
                                 image = product.image
                             )
-                            updateTotalPrice() // Cập nhật tổng giá trị giỏ hàng
+                            getTotalPrice() // Cập nhật tổng giá trị giỏ hàng
                         } else {
                             Log.e("CartViewModel", "Error adding to cart: ${response.code()} - ${response.message()}")
                         }
