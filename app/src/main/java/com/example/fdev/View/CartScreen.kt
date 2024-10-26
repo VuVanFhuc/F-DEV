@@ -30,14 +30,12 @@ fun CartScreen(
     cartViewModel: CartViewModel = viewModel()
 ) {
     val cartItems by cartViewModel.cartItems.collectAsState()  // Lấy danh sách sản phẩm trong giỏ hàng
-    val totalPrice = cartViewModel.getTotalPrice()  // Tính tổng giá
-
+    val totalPrice = cartViewModel.updateTotalPrice()  // Tính tổng giá
 
     LaunchedEffect(Unit) {
         // Lấy giỏ hàng của người dùng khi màn hình được hiển thị
         cartViewModel.getCartItems()
     }
-
 
     Scaffold(
         topBar = {
@@ -80,9 +78,7 @@ fun CartScreen(
                     Text("$ $totalPrice", fontWeight = FontWeight.Bold)
                 }
 
-
                 Spacer(modifier = Modifier.height(8.dp))
-
 
                 Button(
                     onClick = { navController.navigate("CHECKOUT/$totalPrice") },  // Điều hướng đến màn hình thanh toán
@@ -122,6 +118,7 @@ fun CartScreen(
         }
     }
 }
+
 
 
 

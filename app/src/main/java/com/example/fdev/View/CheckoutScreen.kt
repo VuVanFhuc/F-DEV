@@ -1,6 +1,5 @@
 package com.example.fdev.View
 
-import CartViewModel
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*

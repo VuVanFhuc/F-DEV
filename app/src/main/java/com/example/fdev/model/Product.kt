@@ -15,12 +15,12 @@ data class ProductResponse(
 
 // Data class cho request body gửi lên server
 data class ProductRequest(
-    val id: String,
-    val name: String,
-    val price: Number,
-    val description: String,
-    val image: String,
-    val type: String,
+    @SerializedName("id") val id: String,
+    @SerializedName("name") val name: String,
+    @SerializedName("price") val price: Number,
+    @SerializedName("description") val description: String,
+    @SerializedName("image") val image: String,
+    @SerializedName("type") val type: String,
 )
 
 // Data class cho đối tượng Product
@@ -37,7 +37,7 @@ data class Product(
 fun ProductResponse.toProduct(): Product {
     require(id.isNotEmpty()) { "Product ID cannot be empty" }
     return Product(
-        id = this.id ?: "default_id", // Sử dụng giá trị mặc định nếu null
+        id = this.id,
         name = this.name,
         price = this.price,
         description = this.description,
@@ -78,4 +78,14 @@ fun Product?.toProductFormData() = this?.let {
         image = this.image,
         type = this.type
     )
+}
+
+// Data class cho yêu cầu thêm tất cả sản phẩm vào giỏ hàng
+data class AddAllToCartRequest(
+    val userName: String,
+    val products: List<ProductRequest>
+) {
+    init {
+        require(products.isNotEmpty()) { "Product list cannot be empty" }
+    }
 }

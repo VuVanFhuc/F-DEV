@@ -48,8 +48,10 @@ interface ApiService {
     suspend fun addReview(@Body reviewRequest: ReviewRequest): Response<ReviewResponse>
     //===========DELETE===========
 
-
     @DELETE("/favourite/remove-from-favourite/{userName}/{productName}")
     suspend fun removeFromFavourite(@Path("userName") userName: String, @Path("productName") productName: String): Response<FavouriteResponse>
 
+    @POST("/cart/add-all-from-favourite")
+    suspend fun addAllFromFavourite(@Body request: AddAllFromFavouriteRequest): Response<CartResponse>
 }
+
