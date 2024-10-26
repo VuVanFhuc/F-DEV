@@ -180,7 +180,7 @@ fun GetLayoutButtonBarNavigator(navHostController: NavHostController) {
                 startDestination = isSelected
             ) {
                 composable(ROUTER.home.name) {
-                    LayoutHomeAdminScreen(navHostController, RetrofitService())
+                    LayoutHomeScreen(navHostController, RetrofitService())
                 }
                 if (isAdmin) {
                     composable(ROUTER.ADDPRODUCT.name) {

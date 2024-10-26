@@ -37,7 +37,6 @@ import androidx.compose.ui.platform.LocalContext
 import com.example.fdev.model.ProductAdminRequest
 import com.example.fdev.viewmodel.ProductAdminViewModel
 
-
 @Composable
 fun AddProductScreen(navController: NavController, viewModel: ProductAdminViewModel = viewModel()) {
     var productName by remember { mutableStateOf("") }
@@ -49,8 +48,6 @@ fun AddProductScreen(navController: NavController, viewModel: ProductAdminViewMo
     val errorMessage by viewModel.errorMessage.observeAsState()
 
     val context = LocalContext.current
-
-    //
 
     Column(
         modifier = Modifier
@@ -133,15 +130,20 @@ fun AddProductScreen(navController: NavController, viewModel: ProductAdminViewMo
         // Save Button
         Button(
             onClick = {
-                viewModel.addProduct(
-                    ProductAdminRequest(
-                        name = productName,
-                        price = productPrice.toDoubleOrNull() ?: 0.0,
-                        description = productDescription,
-                        image = productImageUrl,
-                        type = "ProductType"
+                val price = productPrice.toDoubleOrNull()
+                if (price != null && price >= 0) {
+                    viewModel.addProduct(
+                        ProductAdminRequest(
+                            name = productName,
+                            price = price,
+                            description = productDescription,
+                            image = productImageUrl,
+                            type = "ProductType"
+                        )
                     )
-                )
+                } else {
+                    Toast.makeText(context, "Price must be greater than or equal to 0", Toast.LENGTH_SHORT).show()
+                }
             },
             modifier = Modifier.size(290.dp, 50.dp),
             colors = ButtonDefaults.buttonColors(
@@ -150,7 +152,6 @@ fun AddProductScreen(navController: NavController, viewModel: ProductAdminViewMo
             shape = RoundedCornerShape(8.dp)
         ) {
             Text(
-
                 text = "SAVE PRODUCT",
                 fontSize = 16.sp
             )
@@ -163,12 +164,13 @@ fun AddProductScreen(navController: NavController, viewModel: ProductAdminViewMo
             }
             errorMessage?.let {
                 if (it.isNotEmpty()) {
-                    Toast.makeText(context, "Product Add Faile !", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Product Add Failed!", Toast.LENGTH_SHORT).show()
                 }
             }
         }
     }
 }
+
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable

@@ -203,7 +203,6 @@ fun ItemProductAdmin(navController: NavHostController, model: Product) {
                     .clip(shape = RoundedCornerShape(8.dp))
                     .clickable {
                         navController.currentBackStackEntry?.savedStateHandle?.set("product", model)
-                        navController.navigate("ProductAdmin1")
                     },
                 painter = rememberImagePainter(
                     data = model.image,
