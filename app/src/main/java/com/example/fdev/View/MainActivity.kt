@@ -3,7 +3,6 @@ package com.example.fdev.View
 
 import CartScreen
 import CartViewModel
-import LayoutProductScreen
 import RetrofitService
 import ReviewScreen
 import android.os.Build
@@ -16,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.fdev.View.Admin.ProductAdmin
 import com.example.fdev.View.Admin.ProductDetailsAdmin
 import com.example.fdev.ViewModel.NetWork.ApiService
 import com.example.fdev.navigator.GetLayoutButtonBarNavigator
@@ -23,6 +23,7 @@ import com.example.fdev.navigator.ROUTER
 
 
 class MainActivity : ComponentActivity() {
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -57,9 +58,9 @@ class MainActivity : ComponentActivity() {
             composable(Router.REGISTER.name) {
                 LayoutRegisterScreen(navController = navController)
             }
-            composable(Router.PRODUCT.name) {
-                LayoutProductScreen(navController = navController, cartViewModel = cartViewModel)
-            }
+//            composable(Router.PRODUCT.name) {
+//                LayoutProductScreen(navController = navController, cartViewModel = cartViewModel)
+//            }
             composable(Router.HELP.name) {
                 LayoutHelp(navController = navController)
             }
@@ -108,6 +109,9 @@ class MainActivity : ComponentActivity() {
             composable(ROUTER.CONGRATSADMIN.name) {
                 CongratsAdminScreen(navController)
             }
+            composable(Router.ProductAdmin1.name) {
+                ProductAdmin(navController, cartViewModel = cartViewModel)
+            }
         }
     }
 
@@ -132,7 +136,9 @@ class MainActivity : ComponentActivity() {
         ADDPAYMENTMETHOD,
         REVIEW,
         ACCOUNTS,
-        PRODUCTADMIN
+        PRODUCTADMIN,
+
+        ProductAdmin1
     }
 }
 

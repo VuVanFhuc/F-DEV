@@ -62,9 +62,7 @@ import java.time.format.TextStyle
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ProductDetailsAdmin(navController: NavController) {
-    var value by remember {
-        mutableIntStateOf(1)
-    }
+
     val coroutineScope = rememberCoroutineScope()
     val pageCount = 3
     val pagerState = rememberPagerState(initialPage = 0, pageCount = { pageCount })
@@ -85,14 +83,6 @@ fun ProductDetailsAdmin(navController: NavController) {
                     .width(349.dp)
             ) {
                 ViewPager(state = pagerState, modifier = Modifier.matchParentSize(), navController)
-                ViewPagerDotsIndicator(
-                    Modifier
-                        .height(50.dp)
-                        .align(Alignment.BottomEnd)
-                        .padding(end = 50.dp),
-                    pageCount = pageCount,
-                    currentPageIteration = pagerState.currentPage
-                )
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier
@@ -148,13 +138,6 @@ fun ProductDetailsAdmin(navController: NavController) {
                     text = "$50",
                     fontSize = 30.sp
                 )
-                UpAndDown(value = value, onUpPress = {
-                    value = ++value
-                }, onDownPress = {
-                    if (value > 1) {
-                        value = --value
-                    }
-                })
             }
             Row(
                 modifier = Modifier
@@ -214,7 +197,9 @@ fun FooterDetails(isFavorite: Boolean, onMarkPress: () -> Unit, onAddToCartPress
                 .background(Color.Black)
                 .weight(1f)
                 .height(60.dp)
-                .clickable {navController.navigate("cart") },
+                .clickable {
+
+                },
             contentAlignment = Alignment.Center
 
         ) {
@@ -231,7 +216,9 @@ fun FooterDetails(isFavorite: Boolean, onMarkPress: () -> Unit, onAddToCartPress
                 .background(Color.Black)
                 .weight(1f)
                 .height(60.dp)
-                .clickable {navController.navigate("cart") },
+                .clickable {
+
+                },
             contentAlignment = Alignment.Center
         ) {
             Text(
@@ -243,50 +230,6 @@ fun FooterDetails(isFavorite: Boolean, onMarkPress: () -> Unit, onAddToCartPress
     }
 }
 
-@Composable
-fun UpAndDown(value: Int, onUpPress: () -> Unit, onDownPress: () -> Unit) {
-    val rounded = 8.dp
-    val size = 13.dp
-    val padding = 10.dp
-    Row(verticalAlignment = Alignment.CenterVertically) {
-        Box(
-            modifier = Modifier
-
-                .clip(RoundedCornerShape(rounded))
-                .background(color = Color.White)
-                .padding(padding)
-                .clickable {
-                    onUpPress()
-                }
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.add_icon),
-                contentDescription = "Plus",
-                modifier = Modifier.size(size)
-            )
-
-
-        }
-        Text(
-            text = value.toString(),
-        )
-        Box(
-            modifier = Modifier
-
-                .clip(RoundedCornerShape(rounded))
-                .padding(padding)
-                .clickable {
-                    onDownPress()
-                }
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.a_1),
-                contentDescription = "Minus",
-                modifier = Modifier.size(size)
-            )
-        }
-    }
-}
 
 
 data class ProductColor(
@@ -350,32 +293,6 @@ fun ViewPager(
 }
 
 
-@Composable
-fun ViewPagerDotsIndicator(
-    modifier: Modifier = Modifier,
-    pageCount: Int,
-    currentPageIteration: Int,
-) {
-    Row(
-        modifier = modifier,
-        horizontalArrangement = Arrangement.Center
-    ) {
-        repeat(pageCount) { iteration ->
-            val color =
-                if (currentPageIteration == iteration) Color.Black else Color.Gray
-            Box(
-                modifier = Modifier
-                    .width(if (currentPageIteration == iteration) 50.dp else 20.dp)
-                    .padding(3.dp)
-                    .clip(RoundedCornerShape(10.dp))
-                    .background(color)
-                    .height(5.dp)
-
-
-            )
-        }
-    }
-}
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Preview(showBackground = true, showSystemUi = true)
