@@ -188,9 +188,7 @@ fun GetLayoutButtonBarNavigator(navHostController: NavHostController) {
                     composable(ROUTER.ADDPRODUCT.name) {
                         AddProductScreen(navHostController)
                     }
-                    composable(ROUTER.PRODUCTADMIN.name) {
-                        ProductDetailsAdmin(navHostController)
-                    }
+
 
 
                 } else {
@@ -207,6 +205,7 @@ fun GetLayoutButtonBarNavigator(navHostController: NavHostController) {
                 composable(ROUTER.person.name) {
                     ProfileScreen(navHostController)
                 }
+
             }
         }
     }
