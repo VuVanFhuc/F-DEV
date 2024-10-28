@@ -128,7 +128,7 @@ fun LayoutMail(navController: NavHostController, contactViewModel: ContactViewMo
                 .fillMaxWidth()
                 .background(Color.White, RoundedCornerShape(size = 8.dp))
                 .border(1.dp, Color(0xFF909191), RoundedCornerShape(size = 8.dp)),
-            colors = TextFieldDefaults.outlinedTextFieldColors(
+                colors = TextFieldDefaults.outlinedTextFieldColors(
                 focusedBorderColor = Color.Transparent,
                 unfocusedBorderColor = Color.Transparent,
                 focusedLabelColor = Color.Black,

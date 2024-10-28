@@ -35,7 +35,6 @@ class MainActivity : ComponentActivity() {
             MainNavigation()
         }
     }
-
     @RequiresApi(Build.VERSION_CODES.O)
     @Composable
     fun MainNavigation() {
@@ -105,7 +104,6 @@ class MainActivity : ComponentActivity() {
                 val productId = backStackEntry.arguments?.getString("productId") ?: ""
                 ReviewScreen(navController = navController,productId=productId, productName = String())
             }
-
             composable(Router.ACCOUNTS.name) {
                 LayoutAccounts(navController = navController)
             }
@@ -124,6 +122,9 @@ class MainActivity : ComponentActivity() {
             }
             composable(Router.ProductAdmin1.name) {
                 ProductAdmin(navController, cartViewModel = cartViewModel)
+            }
+            composable(Router.BILL.name){
+                BillScreen(navController = navController)
             }
         }
     }
@@ -150,6 +151,7 @@ class MainActivity : ComponentActivity() {
         ACCOUNTS,
         PRODUCTADMIN,
         UPDATEADMIN,
-        ProductAdmin1
+        ProductAdmin1,
+        BILL,
     }
 }
