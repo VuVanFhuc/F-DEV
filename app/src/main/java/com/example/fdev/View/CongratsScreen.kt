@@ -72,7 +72,9 @@ fun btnSingUp(navController: NavController) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Button(
-            onClick = {/* Su kien OnClick*/ },
+            onClick = {
+                navController.navigate("INVOICEDETAIL") // Chuyển đến màn hình InvoiceDetail
+            },
             colors = ButtonDefaults.buttonColors(
                 Color.Black,
             ),

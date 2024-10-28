@@ -22,7 +22,7 @@ import androidx.navigation.navArgument
 import com.example.fdev.ViewModel.NetWork.ApiService
 import com.example.fdev.navigator.GetLayoutButtonBarNavigator
 import com.example.fdev.navigator.ROUTER
-
+import com.example.fdev.viewmodel.ProductAdminViewModel
 
 class MainActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
@@ -34,7 +34,6 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-
     @RequiresApi(Build.VERSION_CODES.O)
     @Composable
     fun MainNavigation() {
@@ -42,7 +41,7 @@ class MainActivity : ComponentActivity() {
         val retrofitService = RetrofitService() // Initialize RetrofitService
         val apiService: ApiService = retrofitService.fdevApiService // Get ApiService
         val cartViewModel = CartViewModel(apiService) // Initialize CartViewModel
-
+        val productAdminViewModel: ProductAdminViewModel = viewModel() // Initialize ProductAdminViewModel
 
         NavHost(navController = navController, startDestination = Router.WELCOME.name) {
             composable(Router.WELCOME.name) {
@@ -109,6 +108,15 @@ class MainActivity : ComponentActivity() {
                 LayoutAccounts(navController = navController)
             }
 
+            composable("updateProduct/{productId}/{productName}/{productPrice}/{productDescription}/{productType}") { backStackEntry ->
+                val productId = backStackEntry.arguments?.getString("productId") ?: ""
+                val productName = backStackEntry.arguments?.getString("productName") ?: ""
+                val productPrice = backStackEntry.arguments?.getString("productPrice") ?: ""
+                val productDescription = backStackEntry.arguments?.getString("productDescription") ?: ""
+                val productType = backStackEntry.arguments?.getString("productType") ?: ""
+                UpdateProductScreenAdmin(productId, productName, productPrice, productDescription, productType, productAdminViewModel)
+            }
+
             composable(ROUTER.CONGRATSADMIN.name) {
                 CongratsAdminScreen(navController)
             }
@@ -117,7 +125,6 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-
 
     enum class Router {
         WELCOME,
@@ -140,8 +147,7 @@ class MainActivity : ComponentActivity() {
         REVIEW,
         ACCOUNTS,
         PRODUCTADMIN,
-
+        UPDATEADMIN,
         ProductAdmin1
     }
 }
-

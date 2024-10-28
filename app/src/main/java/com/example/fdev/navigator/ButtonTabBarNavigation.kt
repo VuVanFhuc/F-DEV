@@ -35,6 +35,7 @@ import com.example.fdev.View.ProfileScreen
 import com.example.fdev.View.SearchScreen
 import com.google.firebase.auth.FirebaseAuth
 
+
 enum class ROUTER {
     home,
     favourite,
@@ -184,6 +185,9 @@ fun GetLayoutButtonBarNavigator(navHostController: NavHostController) {
                     composable(ROUTER.ADDPRODUCT.name) {
                         AddProductScreen(navHostController)
                     }
+
+
+
                 } else {
                     composable(ROUTER.favourite.name) {
                         FavoritesScreen(navHostController)
@@ -198,7 +202,9 @@ fun GetLayoutButtonBarNavigator(navHostController: NavHostController) {
                 composable(ROUTER.person.name) {
                     ProfileScreen(navHostController)
                 }
+
             }
         }
     }
 }
+

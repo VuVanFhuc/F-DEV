@@ -12,11 +12,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -39,8 +35,10 @@ import com.example.fdev.viewmodel.ProductAdminViewModel
 
 
 @Composable
-fun ProductAdmin(navController: NavHostController, cartViewModel: CartViewModel, ) {
+fun ProductAdmin(navController: NavHostController, cartViewModel: CartViewModel) {
+    // Khởi tạo ProductAdminViewModel
     val productAdminViewModel: ProductAdminViewModel = viewModel()
+
     val scrollState = rememberScrollState()
     val product = navController.previousBackStackEntry?.savedStateHandle?.get<Product>("product")
     val context = LocalContext.current
@@ -245,7 +243,11 @@ fun ProductAdmin(navController: NavHostController, cartViewModel: CartViewModel,
                         .weight(1f)
                         .height(60.dp)
                         .clickable {
-                            // Update cart action
+                            product?.let {
+                                // Truyền thông tin sản phẩm khi nhấn nút "Update to cart"
+                                navController.navigate("updateProduct/${it.id}/${it.name}/${it.price}/${it.description}/${it.type}")
+
+                            }
                         },
                     contentAlignment = Alignment.Center
                 ) {

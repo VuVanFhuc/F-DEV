@@ -1,3 +1,4 @@
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -28,7 +29,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberImagePainter
 import com.example.fdev.R
+
 import com.example.fdev.model.Product
+import com.example.fdev.view.downloadImage
 
 
 @Composable
@@ -190,6 +193,20 @@ fun LayoutProductScreen(navController: NavHostController) {
                             Toast.makeText(context, "Product added to cart successfully", Toast.LENGTH_LONG).show()
                         } ?: run {
                             Toast.makeText(context, "Product not found", Toast.LENGTH_SHORT).show()
+                            if (it.price.toDouble() == 0.0) {
+                                // In ra URL hình ảnh trong Logcat
+                                Log.d("Download", "Downloading image from URL: ${it.image}")
+                                if (checkAndRequestPermissions(context)) {
+                                    downloadImage(context, it.image)
+                                } else {
+                                    Toast.makeText(context, "Permission denied", Toast.LENGTH_LONG).show()
+                                }
+                            } else {
+                                // Logic thêm vào giỏ hàng
+                                cartViewModel.addToCart(it)
+                                Toast.makeText(context, "Product added to cart successfully", Toast.LENGTH_LONG).show()
+                                navController.navigate("CART")
+                            }
                         }
                     },
                     shape = RoundedCornerShape(10.dp),
@@ -202,6 +219,8 @@ fun LayoutProductScreen(navController: NavHostController) {
                     Text(
                         text = "Add to cart",
                         color = Color.White
+                        text = if (product?.price?.toDouble() == 0.0) "Download" else "Add to cart",
+                        fontFamily = FontFamily.Serif
                     )
                 }
             }
