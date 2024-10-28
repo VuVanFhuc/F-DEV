@@ -2,6 +2,7 @@ package com.example.fdev.View
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -72,7 +73,7 @@ fun btnSingUp(navController: NavController) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Button(
-            onClick = {/* Su kien OnClick*/ },
+            onClick = {navController.navigate("BILL")/* Su kien OnClick*/ },
             colors = ButtonDefaults.buttonColors(
                 Color.Black,
             ),
@@ -86,7 +87,8 @@ fun btnSingUp(navController: NavController) {
                 fontSize = 20.sp,
                 fontFamily = FontFamily.Default,
                 modifier = Modifier
-                    .size(width = 285.dp, height = 30.dp),
+                    .size(width = 285.dp, height = 30.dp)
+                    .clickable {navController.navigate("BILL")},
             )
         }
 

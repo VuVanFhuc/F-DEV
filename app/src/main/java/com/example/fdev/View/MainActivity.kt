@@ -48,6 +48,7 @@ class MainActivity : ComponentActivity() {
         REVIEW,
         LANGUAGE,
         ACCOUNTS,
+        BILL,
     }
 
     @Composable
@@ -125,9 +126,11 @@ class MainActivity : ComponentActivity() {
                 val productId = backStackEntry.arguments?.getString("productId") ?: ""
                 ReviewScreen(navController = navController, productId = productId)
             }
-
             composable(Router.ACCOUNTS.name) {
                 LayoutAccounts(navController = navController)
+            }
+            composable(Router.BILL.name){
+                BillScreen(navController = navController)
             }
         }
     }
