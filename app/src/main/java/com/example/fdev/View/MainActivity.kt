@@ -16,11 +16,12 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.fdev.View.Admin.ProductAdmin
 import com.example.fdev.View.Admin.ProductDetailsAdmin
 import com.example.fdev.ViewModel.NetWork.ApiService
 import com.example.fdev.navigator.GetLayoutButtonBarNavigator
-import com.example.fdev.R
-import com.google.firebase.auth.FirebaseAuth
+import com.example.fdev.navigator.ROUTER
+
 
 class MainActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
@@ -103,15 +104,17 @@ class MainActivity : ComponentActivity() {
             composable(Router.ACCOUNTS.name) {
                 LayoutAccounts(navController = navController)
             }
-            composable(Router.PRODUCTADMIN.name) {
+            composable(ROUTER.PRODUCTADMIN.name) {
                 ProductDetailsAdmin(navController)
             }
-            composable(Router.CONGRATSADMIN.name) {
+            composable(ROUTER.CONGRATSADMIN.name) {
                 CongratsAdminScreen(navController)
+            }
+            composable(Router.ProductAdmin1.name) {
+                ProductAdmin(navController, cartViewModel = cartViewModel)
             }
         }
     }
-
 
 
     enum class Router {
@@ -135,7 +138,8 @@ class MainActivity : ComponentActivity() {
         REVIEW,
         ACCOUNTS,
         PRODUCTADMIN,
-        CONGRATSADMIN
+
+        ProductAdmin1
     }
 }
 

@@ -1,6 +1,6 @@
 package com.example.fdev.View.Admin
-
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
@@ -31,17 +31,27 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.fdev.R
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.platform.LocalContext
+import com.example.fdev.model.ProductAdminRequest
+import com.example.fdev.viewmodel.ProductAdminViewModel
 
 @Composable
-fun AddProductScreen(navController: NavController) {
+fun AddProductScreen(navController: NavController, viewModel: ProductAdminViewModel = viewModel()) {
     var productName by remember { mutableStateOf("") }
     var productPrice by remember { mutableStateOf("") }
     var productDescription by remember { mutableStateOf("") }
     var productImageUrl by remember { mutableStateOf("") }
 
+    val productResponse by viewModel.productResponse.observeAsState()
+    val errorMessage by viewModel.errorMessage.observeAsState()
+
+    val context = LocalContext.current
+
     Column(
         modifier = Modifier
-            .padding(20.dp, top = 65.dp, end = 20.dp)
+            .padding(20.dp, top = 25.dp, end = 20.dp)
             .fillMaxHeight(),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -120,8 +130,20 @@ fun AddProductScreen(navController: NavController) {
         // Save Button
         Button(
             onClick = {
-                navController.navigate("CONGRATSADMIN")
-                println("Product Saved: $productName, $productPrice, $productDescription, $productImageUrl")
+                val price = productPrice.toDoubleOrNull()
+                if (price != null && price >= 0) {
+                    viewModel.addProduct(
+                        ProductAdminRequest(
+                            name = productName,
+                            price = price,
+                            description = productDescription,
+                            image = productImageUrl,
+                            type = "ProductType"
+                        )
+                    )
+                } else {
+                    Toast.makeText(context, "Price must be greater than or equal to 0", Toast.LENGTH_SHORT).show()
+                }
             },
             modifier = Modifier.size(290.dp, 50.dp),
             colors = ButtonDefaults.buttonColors(
@@ -134,8 +156,21 @@ fun AddProductScreen(navController: NavController) {
                 fontSize = 16.sp
             )
         }
+
+        LaunchedEffect(productResponse, errorMessage) {
+            productResponse?.let {
+                Toast.makeText(context, "Product added successfully!", Toast.LENGTH_SHORT).show()
+                navController.navigate("CONGRATSADMIN")  // Replace "NextScreenRoute" with your actual route
+            }
+            errorMessage?.let {
+                if (it.isNotEmpty()) {
+                    Toast.makeText(context, "Product Add Failed!", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
     }
 }
+
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable

@@ -98,7 +98,7 @@ fun LayoutHomeAdminScreen(navController: NavHostController, retrofitService: Ret
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "Make home",
+                    text = "Make home Admin",
                     fontFamily = FontFamily.Serif,
                     fontSize = 15.sp,
                     color = Color(0xff909090)
@@ -202,8 +202,7 @@ fun ItemProductAdmin(navController: NavHostController, model: Product) {
                     .height(250.dp) // Thay đổi chiều cao
                     .clip(shape = RoundedCornerShape(8.dp))
                     .clickable {
-//                        navController.currentBackStackEntry?.savedStateHandle?.set("product", model)
-                        navController.navigate("PRODUCTADMIN")
+                        navController.currentBackStackEntry?.savedStateHandle?.set("product", model)
                     },
                 painter = rememberImagePainter(
                     data = model.image,
@@ -238,6 +237,6 @@ fun ItemProductAdmin(navController: NavHostController, model: Product) {
 
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
-fun HomeAdminScreen() {
+fun PreviewHomeAdminScreen() {
     LayoutHomeAdminScreen(navController = rememberNavController(), retrofitService = RetrofitService())
 }

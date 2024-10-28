@@ -48,6 +48,7 @@ import coil.compose.rememberImagePainter
 import com.example.fdev.R
 import com.example.fdev.ViewModel.ProductViewModel
 import com.example.fdev.model.Product
+import com.google.firebase.auth.FirebaseAuth
 
 @Composable
 fun LayoutHomeScreen(navController: NavHostController, retrofitService: RetrofitService) {
@@ -192,6 +193,10 @@ class TypeProduct(var type: String, var icon: Int)
 
 @Composable
 fun ItemProduct(navController: NavHostController, model: Product) {
+
+    val auth = FirebaseAuth.getInstance()
+    val isAdmin = auth.currentUser?.displayName == "AdminFdev"
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -208,7 +213,11 @@ fun ItemProduct(navController: NavHostController, model: Product) {
                     .clip(shape = RoundedCornerShape(8.dp))
                     .clickable {
                         navController.currentBackStackEntry?.savedStateHandle?.set("product", model)
-                        navController.navigate("PRODUCT")
+                        if (isAdmin) {
+                            navController.navigate("ProductAdmin1")
+                        } else {
+                            navController.navigate("PRODUCT")
+                        }
                     },
                 painter = rememberImagePainter(
                     data = model.image,

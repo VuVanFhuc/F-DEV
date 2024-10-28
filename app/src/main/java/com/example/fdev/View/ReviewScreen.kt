@@ -23,7 +23,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.fdev.R
 import com.example.fdev.ViewModel.ReviewViewModel
-import com.example.fdev.model.Product
 import com.example.fdev.model.ReviewRequest
 import com.example.fdev.model.ReviewResponse
 import com.google.firebase.auth.FirebaseAuth
