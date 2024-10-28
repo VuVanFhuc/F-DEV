@@ -34,8 +34,8 @@ import com.example.fdev.R
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.platform.LocalContext
+import com.example.fdev.ViewModel.ProductAdminViewModel
 import com.example.fdev.model.ProductAdminRequest
-import com.example.fdev.viewmodel.ProductAdminViewModel
 
 @Composable
 fun AddProductScreen(navController: NavController, viewModel: ProductAdminViewModel = viewModel()) {

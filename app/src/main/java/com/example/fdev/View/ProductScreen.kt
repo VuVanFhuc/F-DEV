@@ -26,11 +26,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil.compose.rememberImagePainter
 import com.example.fdev.R
-
-
+import com.example.fdev.View.downloadImage
 import com.example.fdev.model.Product
-import com.example.fdev.view.downloadImage
-
 
 @Composable
 fun LayoutProductScreen(navController: NavHostController, cartViewModel: CartViewModel) {

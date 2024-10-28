@@ -18,8 +18,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.fdev.R
+import com.example.fdev.ViewModel.ProductAdminViewModel
 import com.example.fdev.model.ProductAdminRequest
-import com.example.fdev.viewmodel.ProductAdminViewModel
 
 @Composable
 fun UpdateProductScreenAdmin(

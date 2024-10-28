@@ -30,15 +30,15 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import coil.compose.rememberImagePainter
 import com.example.fdev.R
+import com.example.fdev.ViewModel.ProductAdminViewModel
 import com.example.fdev.model.Product
-import com.example.fdev.viewmodel.ProductAdminViewModel
 
 
 @Composable
-fun ProductAdmin(navController: NavHostController, cartViewModel: CartViewModel) {
+fun ProductAdmin(navController: NavHostController) {
     // Khởi tạo ProductAdminViewModel
     val productAdminViewModel: ProductAdminViewModel = viewModel()
-
+    val cartViewModel: CartViewModel = viewModel()
     val scrollState = rememberScrollState()
     val product = navController.previousBackStackEntry?.savedStateHandle?.get<Product>("product")
     val context = LocalContext.current

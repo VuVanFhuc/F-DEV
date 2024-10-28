@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import com.google.firebase.auth.FirebaseAuth
 
-class CartViewModel(apiService: ApiService) : ViewModel() {
+class CartViewModel() : ViewModel() {
     private val apiService = RetrofitService().fdevApiService
     private val _cartItems = MutableStateFlow<List<CartItem>>(emptyList())
     val cartItems: StateFlow<List<CartItem>> = _cartItems

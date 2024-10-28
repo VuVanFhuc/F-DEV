@@ -21,10 +21,9 @@ import androidx.navigation.compose.rememberNavController
 import com.example.fdev.View.Admin.ProductAdmin
 import androidx.navigation.navArgument
 import com.example.fdev.View.Admin.UpdateProductScreenAdmin
-import com.example.fdev.ViewModel.NetWork.ApiService
 import com.example.fdev.navigator.GetLayoutButtonBarNavigator
 import com.example.fdev.navigator.ROUTER
-import com.example.fdev.viewmodel.ProductAdminViewModel
+import com.example.fdev.ViewModel.ProductAdminViewModel
 
 class MainActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
@@ -35,13 +34,13 @@ class MainActivity : ComponentActivity() {
             MainNavigation()
         }
     }
+
     @RequiresApi(Build.VERSION_CODES.O)
     @Composable
     fun MainNavigation() {
         val navController = rememberNavController()
         val retrofitService = RetrofitService() // Initialize RetrofitService
-        val apiService: ApiService = retrofitService.fdevApiService // Get ApiService
-        val cartViewModel = CartViewModel(apiService) // Initialize CartViewModel
+        val cartViewModel = CartViewModel() // Initialize CartViewModel
         val productAdminViewModel: ProductAdminViewModel = viewModel() // Initialize ProductAdminViewModel
 
         NavHost(navController = navController, startDestination = Router.WELCOME.name) {
@@ -104,8 +103,12 @@ class MainActivity : ComponentActivity() {
                 val productId = backStackEntry.arguments?.getString("productId") ?: ""
                 ReviewScreen(navController = navController,productId=productId, productName = String())
             }
+
             composable(Router.ACCOUNTS.name) {
                 LayoutAccounts(navController = navController)
+            }
+            composable(Router.BILL.name) {
+                LayoutBillScreen(navController=navController)
             }
 
             composable("updateProduct/{productId}/{productName}/{productPrice}/{productDescription}/{productType}") { backStackEntry ->
@@ -121,11 +124,9 @@ class MainActivity : ComponentActivity() {
                 CongratsAdminScreen(navController)
             }
             composable(Router.ProductAdmin1.name) {
-                ProductAdmin(navController, cartViewModel = cartViewModel)
+                ProductAdmin(navController)
             }
-            composable(Router.BILL.name){
-                BillScreen(navController = navController)
-            }
+
         }
     }
 

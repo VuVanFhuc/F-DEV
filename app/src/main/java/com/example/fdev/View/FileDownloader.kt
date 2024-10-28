@@ -1,4 +1,4 @@
-package com.example.fdev.view
+package com.example.fdev.View
 
 import android.content.Context
 import android.media.MediaScannerConnection

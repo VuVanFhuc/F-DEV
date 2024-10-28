@@ -1,5 +1,6 @@
 package com.example.fdev.View
 
+
 import CartItem
 import CartViewModel
 import android.annotation.SuppressLint
@@ -62,20 +63,24 @@ import com.example.fdev.model.Product
 import com.google.firebase.auth.FirebaseAuth
 
 
+
+
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BillScreen(navController: NavHostController,cartViewModel: CartViewModel = viewModel()) {
+fun LayoutBillScreen(navController: NavHostController,cartViewModel: CartViewModel = viewModel()) {
     val auth = FirebaseAuth.getInstance()
     val currentUser = auth.currentUser
     var name by remember { mutableStateOf(currentUser?.displayName ?: "") }
     val billItems by cartViewModel.cartItems.collectAsState()  // Lấy danh sách sản phẩm trong giỏ hàng
     val totalPrice = cartViewModel.getTotalPrice()  // Tính tổng giá
 
+
     LaunchedEffect(Unit) {
         // Lấy giỏ hàng của người dùng khi màn hình được hiển thị
         cartViewModel.getCartItems()
     }
+
 
     Scaffold(
         topBar = {
@@ -104,6 +109,7 @@ fun BillScreen(navController: NavHostController,cartViewModel: CartViewModel = v
                 )
             )
         },
+
 
         bottomBar = {
             Column(
@@ -136,7 +142,9 @@ fun BillScreen(navController: NavHostController,cartViewModel: CartViewModel = v
                         )
                     )
 
+
                     Spacer(modifier = Modifier.width(16.dp))  // Thêm khoảng cách giữa OutlinedTextField và văn bản
+
 
                     // Kiểm tra tổng giá trị có phải là null hay không
                     Text(
@@ -146,6 +154,7 @@ fun BillScreen(navController: NavHostController,cartViewModel: CartViewModel = v
                     )
                 }
                 Spacer(modifier = Modifier.height(8.dp))
+
 
                 Button(
                     onClick = {  },  // Điều hướng đến màn hình thanh toán
@@ -182,8 +191,11 @@ fun BillScreen(navController: NavHostController,cartViewModel: CartViewModel = v
             }
         }
 
+
     }
 }
+
+
 
 
 @Composable
@@ -205,7 +217,9 @@ fun BillItemRow(item: CartItem) {
             contentScale = ContentScale.Crop  // Cắt ảnh theo kích thước
         )
 
+
         Spacer(modifier = Modifier.width(16.dp))
+
 
         // Hiển thị tên và giá sản phẩm
         Column(
@@ -231,8 +245,10 @@ fun BillItemRow(item: CartItem) {
     }
 }
 
+
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun LayoutBillScreen() {
-    BillScreen(navController = rememberNavController())
+fun BillScreen() {
+    LayoutBillScreen(navController = rememberNavController())
 }
+

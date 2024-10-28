@@ -1,21 +1,22 @@
-package com.example.fdev.viewmodel
+package com.example.fdev.ViewModel
 
 import RetrofitService
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.fdev.model.Product
 import com.example.fdev.model.ProductAdminRequest
 import com.example.fdev.model.ProductAdminResponse
 import kotlinx.coroutines.launch
+class ProductAdminViewModel: ViewModel() {
 
-class ProductAdminViewModel : ViewModel() {
 
+    private val apiService = RetrofitService().fdevApiService
     val productResponse: MutableLiveData<ProductAdminResponse?> = MutableLiveData()
     val errorMessage: MutableLiveData<String> = MutableLiveData()
     val deleteSuccess: MutableLiveData<Boolean> = MutableLiveData()
     val products: MutableLiveData<List<Product>> = MutableLiveData(listOf())
-    private val apiService = RetrofitService().fdevApiService
 
 
     fun addProduct(product: ProductAdminRequest) {
@@ -32,7 +33,8 @@ class ProductAdminViewModel : ViewModel() {
             }
         }
     }
-//
+
+    //
     fun deleteProduct(productId: String) {
         viewModelScope.launch {
             try {
