@@ -1,5 +1,6 @@
 package com.example.fdev.View.Admin
 
+
 import CartViewModel
 import android.widget.Toast
 import androidx.compose.foundation.Image
@@ -36,6 +37,7 @@ import com.example.fdev.R
 import com.example.fdev.model.Product
 import com.example.fdev.viewmodel.ProductAdminViewModel
 
+
 @Composable
 fun ProductAdmin(navController: NavHostController, cartViewModel: CartViewModel, ) {
     val productAdminViewModel: ProductAdminViewModel = viewModel()
@@ -43,7 +45,9 @@ fun ProductAdmin(navController: NavHostController, cartViewModel: CartViewModel,
     val product = navController.previousBackStackEntry?.savedStateHandle?.get<Product>("product")
     val context = LocalContext.current
 
+
     var showDialog by remember { mutableStateOf(false) }
+
 
     Column(
         modifier = Modifier
@@ -74,6 +78,7 @@ fun ProductAdmin(navController: NavHostController, cartViewModel: CartViewModel,
                 )
             }
 
+
             // Back button
             IconButton(
                 onClick = {
@@ -96,6 +101,7 @@ fun ProductAdmin(navController: NavHostController, cartViewModel: CartViewModel,
                     modifier = Modifier.size(15.dp, 15.dp)
                 )
             }
+
 
             // Radio buttons
             Column(
@@ -131,6 +137,7 @@ fun ProductAdmin(navController: NavHostController, cartViewModel: CartViewModel,
             }
         }
 
+
         // Product details
         Column(
             modifier = Modifier
@@ -145,6 +152,7 @@ fun ProductAdmin(navController: NavHostController, cartViewModel: CartViewModel,
                     fontSize = 24.sp,
                 )
             }
+
 
             Row(
                 modifier = Modifier
@@ -162,6 +170,7 @@ fun ProductAdmin(navController: NavHostController, cartViewModel: CartViewModel,
                     )
                 }
             }
+
 
             // Star rating
             Row(
@@ -190,6 +199,7 @@ fun ProductAdmin(navController: NavHostController, cartViewModel: CartViewModel,
                 Spacer(modifier = Modifier.weight(1f))
             }
 
+
             // Product description
             Text(
                 text = product?.description ?: "",
@@ -200,6 +210,7 @@ fun ProductAdmin(navController: NavHostController, cartViewModel: CartViewModel,
                 lineHeight = 22.sp,
                 fontFamily = FontFamily.Serif
             )
+
 
             // Favourite and Add to Cart buttons
             Row(
@@ -246,6 +257,7 @@ fun ProductAdmin(navController: NavHostController, cartViewModel: CartViewModel,
                 }
             }
 
+
             // Confirmation dialog
             if (showDialog) {
                 AlertDialog(
@@ -278,6 +290,7 @@ fun ProductAdmin(navController: NavHostController, cartViewModel: CartViewModel,
     }
 }
 
+
 // Reuse CustomRadioButton component
 @Composable
 fun CustomRadioButton(
@@ -306,4 +319,6 @@ fun CustomRadioButton(
         }
     }
 }
+
+
 

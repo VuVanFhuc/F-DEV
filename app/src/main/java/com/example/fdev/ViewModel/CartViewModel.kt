@@ -1,12 +1,10 @@
 import android.util.Log
-import android.widget.Toast
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.fdev.View.FavouriteItem
+import com.example.fdev.ViewModel.NetWork.ApiService
 import com.example.fdev.model.AddAllFromFavouriteRequest
 import com.example.fdev.model.AddToCartRequest
 import com.example.fdev.model.Product
@@ -15,7 +13,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import com.google.firebase.auth.FirebaseAuth
 
-class CartViewModel : ViewModel() {
+class CartViewModel(apiService: ApiService) : ViewModel() {
     private val apiService = RetrofitService().fdevApiService
     private val _cartItems = MutableStateFlow<List<CartItem>>(emptyList())
     val cartItems: StateFlow<List<CartItem>> = _cartItems

@@ -2,6 +2,7 @@ package com.example.fdev.View
 
 
 import CartScreen
+import CartViewModel
 import LayoutProductScreen
 import RetrofitService
 import ReviewScreen
@@ -40,6 +41,7 @@ class MainActivity : ComponentActivity() {
         val navController = rememberNavController()
         val retrofitService = RetrofitService() // Initialize RetrofitService
         val apiService: ApiService = retrofitService.fdevApiService // Get ApiService
+        val cartViewModel = CartViewModel(apiService) // Initialize CartViewModel
 
 
         NavHost(navController = navController, startDestination = Router.WELCOME.name) {
