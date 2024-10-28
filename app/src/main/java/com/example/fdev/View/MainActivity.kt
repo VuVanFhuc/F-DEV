@@ -1,6 +1,5 @@
 package com.example.fdev.View
 
-
 import CartScreen
 import CartViewModel
 import LayoutProductScreen
@@ -13,15 +12,16 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.fdev.View.Admin.ProductAdmin
-import com.example.fdev.View.Admin.ProductDetailsAdmin
+import com.example.fdev.View.Admin.UpdateProductScreenAdmin
 import com.example.fdev.ViewModel.NetWork.ApiService
 import com.example.fdev.navigator.GetLayoutButtonBarNavigator
 import com.example.fdev.navigator.ROUTER
-
+import com.example.fdev.viewmodel.ProductAdminViewModel
 
 class MainActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
@@ -33,7 +33,6 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-
     @RequiresApi(Build.VERSION_CODES.O)
     @Composable
     fun MainNavigation() {
@@ -41,7 +40,7 @@ class MainActivity : ComponentActivity() {
         val retrofitService = RetrofitService() // Initialize RetrofitService
         val apiService: ApiService = retrofitService.fdevApiService // Get ApiService
         val cartViewModel = CartViewModel(apiService) // Initialize CartViewModel
-
+        val productAdminViewModel: ProductAdminViewModel = viewModel() // Initialize ProductAdminViewModel
 
         NavHost(navController = navController, startDestination = Router.WELCOME.name) {
             composable(Router.WELCOME.name) {
@@ -97,15 +96,20 @@ class MainActivity : ComponentActivity() {
             }
             composable(Router.REVIEW.name + "/{productId}") { backStackEntry ->
                 val productId = backStackEntry.arguments?.getString("productId") ?: ""
-                ReviewScreen(navController = navController,productId=productId, productName = String())
+                ReviewScreen(navController = navController, productId = productId, productName = String())
             }
-
 
             composable(Router.ACCOUNTS.name) {
                 LayoutAccounts(navController = navController)
             }
-            composable(ROUTER.PRODUCTADMIN.name) {
-                ProductDetailsAdmin(navController)
+
+            composable("updateProduct/{productId}/{productName}/{productPrice}/{productDescription}/{productType}") { backStackEntry ->
+                val productId = backStackEntry.arguments?.getString("productId") ?: ""
+                val productName = backStackEntry.arguments?.getString("productName") ?: ""
+                val productPrice = backStackEntry.arguments?.getString("productPrice") ?: ""
+                val productDescription = backStackEntry.arguments?.getString("productDescription") ?: ""
+                val productType = backStackEntry.arguments?.getString("productType") ?: ""
+                UpdateProductScreenAdmin(productId, productName, productPrice, productDescription, productType, productAdminViewModel)
             }
             composable(ROUTER.CONGRATSADMIN.name) {
                 CongratsAdminScreen(navController)
@@ -115,7 +119,6 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-
 
     enum class Router {
         WELCOME,
@@ -138,8 +141,7 @@ class MainActivity : ComponentActivity() {
         REVIEW,
         ACCOUNTS,
         PRODUCTADMIN,
-
+        UPDATEADMIN,
         ProductAdmin1
     }
 }
-

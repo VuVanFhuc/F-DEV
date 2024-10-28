@@ -29,7 +29,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.fdev.R
 import com.example.fdev.View.Admin.AddProductScreen
-import com.example.fdev.View.Admin.ProductDetailsAdmin
+
 import com.example.fdev.View.FavoritesScreen
 import com.example.fdev.View.LayoutHomeAdminScreen
 import com.example.fdev.View.LayoutHomeScreen

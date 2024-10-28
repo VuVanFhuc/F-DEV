@@ -1,41 +1,40 @@
 package com.example.fdev.View.Admin
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.*
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.fdev.R
+import com.example.fdev.model.ProductAdminRequest
+import com.example.fdev.viewmodel.ProductAdminViewModel
 
 @Composable
-fun UpdateProductScreenAdmin() {
-    var productName by remember { mutableStateOf("") }
-    var productPrice by remember { mutableStateOf("") }
-    var productDescription by remember { mutableStateOf("") }
-    var productImageUrl by remember { mutableStateOf("") }
+fun UpdateProductScreenAdmin(
+
+    productId: String,
+    productName: String,
+    productPrice: String,
+    productDescription: String,
+    productType: String,
+    productAdminViewModel: ProductAdminViewModel
+) {
+    var name by remember { mutableStateOf(productName) }
+    var price by remember { mutableStateOf(productPrice) }
+    var description by remember { mutableStateOf(productDescription) }
+    var imageUrl by remember { mutableStateOf("") } // Có thể để trống nếu không cần
 
     Column(
         modifier = Modifier
@@ -54,17 +53,11 @@ fun UpdateProductScreenAdmin() {
                 contentDescription = null,
                 modifier = Modifier
                     .size(25.dp)
-                    .clickable { },
+                    .clickable { /* Handle back navigation */ },
                 contentScale = ContentScale.FillBounds,
             )
             Text(
                 text = "UPDATE PRODUCT",
-                modifier = Modifier.align(Alignment.CenterVertically),
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Medium
-            )
-            Text(
-                text = "",
                 modifier = Modifier.align(Alignment.CenterVertically),
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Medium
@@ -75,8 +68,8 @@ fun UpdateProductScreenAdmin() {
 
         // Product Name
         OutlinedTextField(
-            value = productName,
-            onValueChange = { productName = it },
+            value = name,
+            onValueChange = { name = it },
             label = { Text("Product") },
             modifier = Modifier.fillMaxWidth()
         )
@@ -85,8 +78,8 @@ fun UpdateProductScreenAdmin() {
 
         // Product Price
         OutlinedTextField(
-            value = productPrice,
-            onValueChange = { productPrice = it },
+            value = price,
+            onValueChange = { price = it },
             label = { Text("Price") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             modifier = Modifier.fillMaxWidth()
@@ -96,8 +89,8 @@ fun UpdateProductScreenAdmin() {
 
         // Product Description
         OutlinedTextField(
-            value = productDescription,
-            onValueChange = { productDescription = it },
+            value = description,
+            onValueChange = { description = it },
             label = { Text("Describe") },
             modifier = Modifier.fillMaxWidth(),
             maxLines = 4
@@ -107,8 +100,8 @@ fun UpdateProductScreenAdmin() {
 
         // Product Image URL
         OutlinedTextField(
-            value = productImageUrl,
-            onValueChange = { productImageUrl = it },
+            value = imageUrl,
+            onValueChange = { imageUrl = it },
             label = { Text("Image") },
             modifier = Modifier.fillMaxWidth()
         )
@@ -118,8 +111,15 @@ fun UpdateProductScreenAdmin() {
         // Save Button
         Button(
             onClick = {
-                // Xử lý khi bấm nút Save, có thể gửi dữ liệu lên server
-                println("Product Saved: $productName, $productPrice, $productDescription, $productImageUrl")
+                // Xử lý khi bấm nút Save, gửi dữ liệu lên server
+                val productRequest = ProductAdminRequest(
+                    name = name,
+                    price = price.toDoubleOrNull() ?: 0.0,
+                    description = description,
+                    image = imageUrl,
+                    type = productType // Truyền loại sản phẩm
+                )
+                productAdminViewModel.updateProduct(productId, productRequest)
             },
             modifier = Modifier.size(290.dp, 50.dp),
             colors = ButtonDefaults.buttonColors(
@@ -133,10 +133,4 @@ fun UpdateProductScreenAdmin() {
             )
         }
     }
-}
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun UpdateProductScreenPreview() {
-    UpdateProductScreenAdmin()
 }
