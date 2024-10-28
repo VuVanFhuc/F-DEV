@@ -13,12 +13,14 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.fdev.View.Admin.ProductAdmin
 import androidx.navigation.navArgument
+import com.example.fdev.View.Admin.UpdateProductScreenAdmin
 import com.example.fdev.ViewModel.NetWork.ApiService
 import com.example.fdev.navigator.GetLayoutButtonBarNavigator
 import com.example.fdev.navigator.ROUTER
@@ -60,7 +62,7 @@ class MainActivity : ComponentActivity() {
                 LayoutRegisterScreen(navController = navController)
             }
             composable(Router.PRODUCT.name) {
-                LayoutProductScreen(navController = navController)
+                LayoutProductScreen(navController = navController,cartViewModel=cartViewModel)
             }
             composable(Router.HELP.name) {
                 LayoutHelp(navController = navController)
