@@ -4,7 +4,6 @@ import RetrofitService
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.fdev.model.Product
-import com.example.fdev.ViewModel.NetWork.ApiService
 import com.example.fdev.model.ProductResponse
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

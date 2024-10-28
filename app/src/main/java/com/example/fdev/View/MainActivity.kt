@@ -1,23 +1,30 @@
 package com.example.fdev.View
 
+
 import CartScreen
 import LayoutProductScreen
 import RetrofitService
 import ReviewScreen
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.fdev.View.Admin.ProductAdmin
 import androidx.navigation.navArgument
 import com.example.fdev.ViewModel.NetWork.ApiService
 import com.example.fdev.navigator.GetLayoutButtonBarNavigator
+import com.example.fdev.navigator.ROUTER
+
 
 class MainActivity : ComponentActivity() {
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -26,11 +33,14 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+
+    @RequiresApi(Build.VERSION_CODES.O)
     @Composable
     fun MainNavigation() {
         val navController = rememberNavController()
         val retrofitService = RetrofitService() // Initialize RetrofitService
         val apiService: ApiService = retrofitService.fdevApiService // Get ApiService
+
 
         NavHost(navController = navController, startDestination = Router.WELCOME.name) {
             composable(Router.WELCOME.name) {
@@ -96,8 +106,16 @@ class MainActivity : ComponentActivity() {
             composable(Router.ACCOUNTS.name) {
                 LayoutAccounts(navController = navController)
             }
+
+            composable(ROUTER.CONGRATSADMIN.name) {
+                CongratsAdminScreen(navController)
+            }
+            composable(Router.ProductAdmin1.name) {
+                ProductAdmin(navController, cartViewModel = cartViewModel)
+            }
         }
     }
+
 
     enum class Router {
         WELCOME,
@@ -119,5 +137,9 @@ class MainActivity : ComponentActivity() {
         ADDPAYMENTMETHOD,
         REVIEW,
         ACCOUNTS,
+        PRODUCTADMIN,
+
+        ProductAdmin1
     }
 }
+

@@ -1,6 +1,8 @@
 package com.example.fdev.navigator
 
 import RetrofitService
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -25,8 +27,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.fdev.R
+import com.example.fdev.View.Admin.AddProductScreen
 import com.example.fdev.View.FavoritesScreen
-import com.example.fdev.View.LayoutAddProduct
 import com.example.fdev.View.LayoutHomeScreen
 import com.example.fdev.View.NotificationScreen
 import com.example.fdev.View.ProfileScreen
@@ -40,8 +42,11 @@ enum class ROUTER {
     search,
     person,
     ADDPRODUCT,
+    PRODUCTADMIN,
+    CONGRATSADMIN
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GetLayoutButtonBarNavigator(navHostController: NavHostController) {
@@ -177,7 +182,7 @@ fun GetLayoutButtonBarNavigator(navHostController: NavHostController) {
                 }
                 if (isAdmin) {
                     composable(ROUTER.ADDPRODUCT.name) {
-                        LayoutAddProduct(navHostController, RetrofitService())
+                        AddProductScreen(navHostController)
                     }
                 } else {
                     composable(ROUTER.favourite.name) {

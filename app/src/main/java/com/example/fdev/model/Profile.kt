@@ -4,6 +4,6 @@ data class Profile(
     val title: String,
     val content: String,
     val iconResId: Int,
-    val route: String,
+    val route: String
 )
 

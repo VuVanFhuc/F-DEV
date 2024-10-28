@@ -53,5 +53,14 @@ interface ApiService {
 
     @POST("/cart/add-all-from-favourite")
     suspend fun addAllFromFavourite(@Body request: AddAllFromFavouriteRequest): Response<CartResponse>
+
+    // Add Product Admin
+
+    @POST("/product/add-product")
+    suspend fun addProduct(@Body product: ProductAdminRequest) : Response<ProductAdminResponse>
+
+    @DELETE("/product/delete-product/{id}")
+    suspend fun deleteProduct(@Path("id") id: String): Response<Void>
+
 }
 
