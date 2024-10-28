@@ -17,7 +17,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.fdev.View.Admin.ProductAdmin
-import com.example.fdev.View.Admin.ProductDetailsAdmin
 import com.example.fdev.ViewModel.NetWork.ApiService
 import com.example.fdev.navigator.GetLayoutButtonBarNavigator
 import com.example.fdev.navigator.ROUTER
@@ -100,13 +99,10 @@ class MainActivity : ComponentActivity() {
                 ReviewScreen(navController = navController,productId=productId, productName = String())
             }
 
-
             composable(Router.ACCOUNTS.name) {
                 LayoutAccounts(navController = navController)
             }
-            composable(ROUTER.PRODUCTADMIN.name) {
-                ProductDetailsAdmin(navController)
-            }
+
             composable(ROUTER.CONGRATSADMIN.name) {
                 CongratsAdminScreen(navController)
             }
