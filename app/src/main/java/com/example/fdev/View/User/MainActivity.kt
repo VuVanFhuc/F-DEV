@@ -11,6 +11,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -77,7 +78,7 @@ class MainActivity : ComponentActivity() {
                 arguments = listOf(navArgument("totalPrice") { type = NavType.StringType })
             ) { backStackEntry ->
                 val totalPrice = backStackEntry.arguments?.getString("totalPrice") ?: "0.0"
-                CheckoutScreen(navController = navController, retrofitService=retrofitService,totalPrice = totalPrice)
+                CheckoutScreen(navController = navController,retrofitService=retrofitService ,totalPrice = totalPrice)
             }
             composable(Router.FAVORITES.name) {
                 FavoritesScreen(navController = navController)
@@ -115,7 +116,7 @@ class MainActivity : ComponentActivity() {
                 val productPrice = backStackEntry.arguments?.getString("productPrice") ?: ""
                 val productDescription = backStackEntry.arguments?.getString("productDescription") ?: ""
                 val productType = backStackEntry.arguments?.getString("productType") ?: ""
-                UpdateProductScreenAdmin(productId, productName, productPrice, productDescription, productType, productAdminViewModel)
+                UpdateProductScreenAdmin(productId, productName, productPrice, productDescription, productType,productAdminViewModel, navController)
             }
 
             composable(ROUTER.CONGRATSADMIN.name) {
