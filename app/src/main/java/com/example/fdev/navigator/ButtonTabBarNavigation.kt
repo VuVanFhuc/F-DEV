@@ -28,11 +28,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.fdev.R
 import com.example.fdev.View.Admin.AddProductScreen
-import com.example.fdev.View.FavoritesScreen
-import com.example.fdev.View.LayoutHomeScreen
-import com.example.fdev.View.NotificationScreen
-import com.example.fdev.View.ProfileScreen
-import com.example.fdev.View.SearchScreen
+import com.example.fdev.View.User.FavoritesScreen
+import com.example.fdev.View.User.LayoutHomeScreen
+import com.example.fdev.View.User.NotificationScreen
+import com.example.fdev.View.User.ProfileScreen
+import com.example.fdev.View.User.SearchScreen
 import com.google.firebase.auth.FirebaseAuth
 
 

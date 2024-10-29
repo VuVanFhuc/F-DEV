@@ -1,11 +1,8 @@
-package com.example.fdev.View
+package com.example.fdev.View.User
 
 
-import CartScreen
 import CartViewModel
-import LayoutProductScreen
 import RetrofitService
-import ReviewScreen
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -21,6 +18,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.fdev.View.Admin.ProductAdmin
 import androidx.navigation.navArgument
 import com.example.fdev.View.Admin.UpdateProductScreenAdmin
+import com.example.fdev.View.CongratsAdminScreen
 import com.example.fdev.navigator.GetLayoutButtonBarNavigator
 import com.example.fdev.navigator.ROUTER
 import com.example.fdev.ViewModel.ProductAdminViewModel
@@ -79,7 +77,7 @@ class MainActivity : ComponentActivity() {
                 arguments = listOf(navArgument("totalPrice") { type = NavType.StringType })
             ) { backStackEntry ->
                 val totalPrice = backStackEntry.arguments?.getString("totalPrice") ?: "0.0"
-                CheckoutScreen(navController = navController, totalPrice = totalPrice)
+                CheckoutScreen(navController = navController, retrofitService=retrofitService,totalPrice = totalPrice)
             }
             composable(Router.FAVORITES.name) {
                 FavoritesScreen(navController = navController)
@@ -97,7 +95,7 @@ class MainActivity : ComponentActivity() {
                 PaymentMethodScreen(navController = navController)
             }
             composable(Router.ADDPAYMENTMETHOD.name) {
-                AddPaymentMethod(navController = navController)
+                AddPaymentMethod(navController = navController,retrofitService=retrofitService)
             }
             composable(Router.REVIEW.name + "/{productId}") { backStackEntry ->
                 val productId = backStackEntry.arguments?.getString("productId") ?: ""
@@ -150,8 +148,6 @@ class MainActivity : ComponentActivity() {
         ADDPAYMENTMETHOD,
         REVIEW,
         ACCOUNTS,
-        PRODUCTADMIN,
-        UPDATEADMIN,
         ProductAdmin1,
         BILL,
     }

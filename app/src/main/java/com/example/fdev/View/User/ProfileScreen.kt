@@ -1,4 +1,4 @@
-package com.example.fdev.View
+package com.example.fdev.View.User
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

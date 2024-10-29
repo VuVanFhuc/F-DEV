@@ -1,4 +1,4 @@
-package com.example.fdev.View
+package com.example.fdev.View.User
 
 
 import CartItem
@@ -59,7 +59,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberImagePainter
-import com.example.fdev.model.Product
 import com.google.firebase.auth.FirebaseAuth
 
 

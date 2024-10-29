@@ -1,5 +1,6 @@
-package com.example.fdev.View
+package com.example.fdev.View.User
 
+import RetrofitService
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -21,22 +22,22 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.fdev.R
-import com.example.fdev.ViewModel.NetWork.PaymentRequest
-import com.example.fdev.ViewModel.NetWork.PaymentResponse
-import com.example.fdev.ViewModel.NetWork.RetrofitInstance
+import com.example.fdev.model.PaymentResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import android.util.Log
-import com.example.fdev.ViewModel.NetWork.BillingAddress
 import java.text.Normalizer
 import java.util.Calendar
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.rememberCoroutineScope
+import com.example.fdev.model.BillingAddress
+import com.example.fdev.model.PaymentRequest
 import kotlinx.coroutines.launch
 
 @Composable
-fun AddPaymentMethod(navController: NavHostController) {
+fun AddPaymentMethod(navController: NavHostController,retrofitService:RetrofitService) {
+
     // State variables for user input
     var cardHolderName by remember { mutableStateOf("") }
     var cardNumber by remember { mutableStateOf("") }
@@ -316,7 +317,7 @@ fun AddPaymentMethod(navController: NavHostController) {
                             image = null
                         )
 
-                        val call = RetrofitInstance.api.addPayment(paymentRequest)
+                        val call = retrofitService.fdevApiService.addPayment(paymentRequest)
                         call.enqueue(object : Callback<PaymentResponse> {
                             override fun onResponse(
                                 call: Call<PaymentResponse>,
@@ -362,7 +363,7 @@ fun AddPaymentMethod(navController: NavHostController) {
 @Composable
 fun PreviewAddPayment() {
     val navController = rememberNavController()
-    AddPaymentMethod(navController)
+    AddPaymentMethod(navController, retrofitService = RetrofitService())
 }
 
 

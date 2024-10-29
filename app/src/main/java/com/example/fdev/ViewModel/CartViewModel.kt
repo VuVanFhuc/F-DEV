@@ -3,8 +3,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.fdev.View.FavouriteItem
-import com.example.fdev.ViewModel.NetWork.ApiService
+import com.example.fdev.View.User.FavouriteItem
 import com.example.fdev.model.AddAllFromFavouriteRequest
 import com.example.fdev.model.AddToCartRequest
 import com.example.fdev.model.Product

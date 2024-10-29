@@ -7,7 +7,6 @@ open class RetrofitService {
         .baseUrl("http://192.168.53.103:3001/")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
-
     val fdevApiService: ApiService by lazy {
         retrofit.create(ApiService::class.java)
     }

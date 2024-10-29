@@ -1,7 +1,7 @@
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.fdev.View.FavouriteItem
+import com.example.fdev.View.User.FavouriteItem
 import com.example.fdev.model.AddToFavouriteRequest
 import com.example.fdev.model.Product
 import kotlinx.coroutines.flow.MutableStateFlow

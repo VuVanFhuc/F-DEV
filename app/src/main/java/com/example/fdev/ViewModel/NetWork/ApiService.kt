@@ -1,6 +1,7 @@
 package com.example.fdev.ViewModel.NetWork
 
 import com.example.fdev.model.*
+import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.*
 import retrofit2.http.Body
@@ -39,7 +40,10 @@ interface ApiService {
     suspend fun createContact(@Body contact: ContactMailRequest): Response<ContactMailResponse>
 
     @DELETE("/cart/remove-from-cart/{userName}/{productName}")
-    suspend fun removeFromCart(@Path("userName") userName: String, @Path("productName") productName: String): Response<CartResponse>
+    suspend fun removeFromCart(
+        @Path("userName") userName: String,
+        @Path("productName") productName: String
+    ): Response<CartResponse>
 
     // hiển thị comment
     @GET("/review/get-reviews/{productId}")
@@ -50,7 +54,10 @@ interface ApiService {
     //===========DELETE===========
 
     @DELETE("/favourite/remove-from-favourite/{userName}/{productName}")
-    suspend fun removeFromFavourite(@Path("userName") userName: String, @Path("productName") productName: String): Response<FavouriteResponse>
+    suspend fun removeFromFavourite(
+        @Path("userName") userName: String,
+        @Path("productName") productName: String
+    ): Response<FavouriteResponse>
 
     @POST("/cart/add-all-from-favourite")
     suspend fun addAllFromFavourite(@Body request: AddAllFromFavouriteRequest): Response<CartResponse>
@@ -58,7 +65,7 @@ interface ApiService {
     // Add Product Admin
 
     @POST("/product/add-product")
-    suspend fun addProduct(@Body product: ProductAdminRequest) : Response<ProductAdminResponse>
+    suspend fun addProduct(@Body product: ProductAdminRequest): Response<ProductAdminResponse>
 
     @DELETE("/product/delete-product/{id}")
     suspend fun deleteProduct(@Path("id") id: String): Response<Void>
@@ -69,5 +76,12 @@ interface ApiService {
         @Path("id") id: String,
         @Body product: ProductAdminRequest
     ): Response<ProductAdminResponse>
+
+    //    payment
+    @POST("payment")
+    fun addPayment(@Body payment: PaymentRequest): Call<PaymentResponse>
+
+    @GET("payment/{userId}")
+    fun getPayments(@Path("userId") userId: String): Call<PaymentResponse>
 }
 

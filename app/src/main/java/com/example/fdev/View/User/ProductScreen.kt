@@ -1,3 +1,6 @@
+package com.example.fdev.View.User
+
+import CartViewModel
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
@@ -26,7 +29,6 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil.compose.rememberImagePainter
 import com.example.fdev.R
-import com.example.fdev.View.downloadImage
 import com.example.fdev.model.Product
 
 @Composable

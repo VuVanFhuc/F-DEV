@@ -1,5 +1,6 @@
-package com.example.fdev.View
+package com.example.fdev.View.User
 
+import RetrofitService
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -13,7 +14,6 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -26,24 +26,22 @@ import android.util.Log
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.fdev.R
-import com.example.fdev.ViewModel.NetWork.PaymentData
-import com.example.fdev.ViewModel.NetWork.PaymentResponse
-import com.example.fdev.ViewModel.NetWork.RetrofitInstance
+import com.example.fdev.model.PaymentData
+import com.example.fdev.model.PaymentResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CheckoutScreen(navController: NavHostController,totalPrice: String) {
+fun CheckoutScreen(navController: NavHostController,totalPrice: String,retrofitService: RetrofitService) {
     var paymentMethods by remember { mutableStateOf(listOf<PaymentData>()) }
 
 
     // API Call to fetch payment methods
     LaunchedEffect(Unit) {
-        val call = RetrofitInstance.api.getPayments("12345")  // Thay thế bằng userId thực tế
+        val call = retrofitService.fdevApiService.getPayments("12345")  // Thay thế bằng userId thực tế
         call.enqueue(object : Callback<PaymentResponse> {
             override fun onResponse(
                 call: Call<PaymentResponse>,
@@ -361,5 +359,5 @@ fun OrderSummary(totalPrice: String) {
 @Preview(showBackground = true)
 @Composable
 fun CheckoutScreenPreview() {
-    CheckoutScreen(navController = rememberNavController(), totalPrice = "100.00")
+    CheckoutScreen(navController = rememberNavController(), retrofitService = RetrofitService(),totalPrice = "100.00")
 }
