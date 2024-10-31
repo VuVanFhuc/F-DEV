@@ -3,7 +3,7 @@ package com.example.fdev.ViewModel.data
 
 import com.example.fdev.R
 import com.example.fdev.model.Profile
-import com.example.fdev.View.User.MainActivity.Router
+import com.example.fdev.View.MainActivity.Router
 
 
 val setingItem = listOf(
