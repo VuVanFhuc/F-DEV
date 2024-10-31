@@ -109,6 +109,9 @@ class MainActivity : ComponentActivity() {
             composable(Router.BILL.name) {
                 LayoutBillScreen(navController=navController)
             }
+            composable(Router.PROFILE.name) {
+                ProfileScreen(navController=navController)
+            }
 
             composable("updateProduct/{productId}/{productName}/{productPrice}/{productDescription}/{productType}") { backStackEntry ->
                 val productId = backStackEntry.arguments?.getString("productId") ?: ""
@@ -151,5 +154,6 @@ class MainActivity : ComponentActivity() {
         ACCOUNTS,
         ProductAdmin1,
         BILL,
+        PROFILE,
     }
 }

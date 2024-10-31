@@ -122,10 +122,10 @@ fun LayoutHomeScreen(navController: NavHostController, retrofitService: Retrofit
 
 
             IconButton(onClick = {
-                navController.navigate("CART")
+                navController.navigate("PROFILE")
             }) {
                 Icon(
-                    painter = painterResource(id = R.drawable.shopping),
+                    painter = painterResource(id = R.drawable.person),
                     contentDescription = null,
                     modifier = Modifier.size(20.dp, 20.dp),
                     tint = Color(0xff808080)
