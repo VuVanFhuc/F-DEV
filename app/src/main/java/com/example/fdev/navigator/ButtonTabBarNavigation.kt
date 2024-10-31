@@ -114,24 +114,22 @@ fun GetLayoutButtonBarNavigator(navHostController: NavHostController) {
                             indicatorColor = Color.White
                         )
                     )
-                    NavigationBarItem(
-                        selected = isSelected == ROUTER.Notification.name,
-                        onClick = {
-                            isSelected = ROUTER.Notification.name
-                            navController.navigate(ROUTER.Notification.name) {
-                                popUpTo(navController.graph.startDestinationId) { inclusive = true }
-                            }
-                        },
-                        icon = { Icon(painter = painterResource(id = R.drawable.notification), contentDescription = null, modifier = Modifier.size(25.dp)) },
-                        colors = NavigationBarItemDefaults.colors(
-                            selectedIconColor = Color(0xFF059BEE),
-                            unselectedIconColor = Color.Black,
-                            indicatorColor = Color.White
-                        )
-                    )
                 }
-
-                // Các mục luôn hiển thị: Search và Person
+                NavigationBarItem(
+                    selected = isSelected == ROUTER.Notification.name,
+                    onClick = {
+                        isSelected = ROUTER.Notification.name
+                        navController.navigate(ROUTER.Notification.name) {
+                            popUpTo(navController.graph.startDestinationId) { inclusive = true }
+                        }
+                    },
+                    icon = { Icon(painter = painterResource(id = R.drawable.notification), contentDescription = null, modifier = Modifier.size(25.dp)) },
+                    colors = NavigationBarItemDefaults.colors(
+                        selectedIconColor = Color(0xFF059BEE),
+                        unselectedIconColor = Color.Black,
+                        indicatorColor = Color.White
+                    )
+                )
                 NavigationBarItem(
                     selected = isSelected == ROUTER.search.name,
                     onClick = {
@@ -186,15 +184,13 @@ fun GetLayoutButtonBarNavigator(navHostController: NavHostController) {
                         AddProductScreen(navHostController)
                     }
 
-
-
                 } else {
                     composable(ROUTER.favourite.name) {
                         FavoritesScreen(navHostController)
                     }
-                    composable(ROUTER.Notification.name) {
-                        NotificationScreen(navHostController)
-                    }
+                }
+                composable(ROUTER.Notification.name) {
+                    NotificationScreen(navHostController)
                 }
                 composable(ROUTER.search.name) {
                     SearchScreen(navHostController, retrofitService = RetrofitService())

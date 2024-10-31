@@ -16,14 +16,12 @@ data class ContactMailRequest(
     val content: String
 )
 
-// Data class cho response từ server
+
 data class ContactMailResponse(
     @SerializedName("name") val name: String,
     @SerializedName("email") val email: String,
     @SerializedName("content") val content: String
 )
-
-// Chuyển từ ContactMailResponse sang ContactMail
 fun ContactMailResponse.toContactMail(): ContactMail {
     return ContactMail(
         name = this.name,
@@ -55,5 +53,8 @@ fun ContactMail?.toContactMailFormData() = this?.let {
         email = this.email,
         content = this.content
     )
-//    commit 5/10/2024
 }
+data class ContactResponse(
+    val status: String,
+    val data: List<ContactMailResponse>
+)

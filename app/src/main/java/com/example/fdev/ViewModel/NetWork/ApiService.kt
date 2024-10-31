@@ -13,8 +13,9 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiService {
+
     @GET("/contact/get-list-Contact")
-    suspend fun getContactList(): Response<List<ContactMailResponse>>
+    suspend fun getListContactNotifi(): Response<ContactResponse>
 
     @GET("/product/get-list-Product")
     suspend fun getProductList(): Response<List<ProductResponse>>
