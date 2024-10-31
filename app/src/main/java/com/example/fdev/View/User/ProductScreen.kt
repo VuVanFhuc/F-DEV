@@ -1,6 +1,7 @@
 package com.example.fdev.View.User
 
 import CartViewModel
+import FavouriteViewModel
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
@@ -26,6 +27,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import coil.compose.rememberImagePainter
 import com.example.fdev.R
@@ -36,7 +38,7 @@ fun LayoutProductScreen(navController: NavHostController, cartViewModel: CartVie
     val scrollState = rememberScrollState()
     val product = navController.previousBackStackEntry?.savedStateHandle?.get<Product>("product")
     val context = LocalContext.current
-
+    val favouriteViewModel : FavouriteViewModel = viewModel()
 
     Column(
         modifier = Modifier
@@ -227,14 +229,16 @@ fun LayoutProductScreen(navController: NavHostController, cartViewModel: CartVie
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 IconButton(
-                    onClick = { /*TODO*/ },
+                    onClick = {
+                        product?.let {
+                            favouriteViewModel.addToFavourite(it, quantity = 1)
+                            Toast.makeText(context, "Favourite added to successfully", Toast.LENGTH_LONG).show()
+                        } ?: run {
+                            Toast.makeText(context, "Favourite not found", Toast.LENGTH_SHORT).show()
+                        }/*TODO*/ },
                     modifier = Modifier
-                        .fillMaxWidth(0.20f)
                         .size(60.dp)
-                        .background(
-                            color = Color(0xffF0F0F0),
-                            shape = RoundedCornerShape(10.dp)
-                        )
+                        .background(color = Color(0xffF0F0F0), shape = RoundedCornerShape(10.dp))
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.favourite),
