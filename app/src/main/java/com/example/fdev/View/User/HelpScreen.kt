@@ -60,6 +60,34 @@ fun LayoutHelp(navController: NavHostController) {
     val scrollState = rememberScrollState()
     val context = LocalContext.current
 
+    // Danh sách các mục với tên tiếng Việt và tiếng Anh
+    val items = listOf(
+        Pair("Tài Khoản", painter2),
+        Pair("Liên hệ ngay", painter5),
+        Pair("Cơ bản về ảnh / video", painter1),
+        Pair("Chỉnh sửa và sản xuất", painter3),
+        Pair("Lưu trữ phương tiện", painter4),
+        Pair("Phát trực tiếp", painter6),
+        Pair("Bảo mật và pháp lý", painter7),
+        Pair("Gói đăng ký", painter8),
+        Pair("Khắc phục sự cố & FAQ", painter9),
+        // Thêm các mục tiếng Anh tương ứng
+        Pair("Account", painter2),
+        Pair("Contact Us", painter5),
+        Pair("Basics of Images/Videos", painter1),
+        Pair("Editing and Production", painter3),
+        Pair("Media Storage", painter4),
+        Pair("Live Streaming", painter6),
+        Pair("Security and Legal", painter7),
+        Pair("Subscription Packages", painter8),
+        Pair("Troubleshooting & FAQ", painter9)
+    )
+
+    // Lọc danh sách dựa trên giá trị tìm kiếm
+    val filteredItems = items.filter {
+        it.first.contains(search, ignoreCase = true)
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -108,381 +136,153 @@ fun LayoutHelp(navController: NavHostController) {
             )
         }
         Spacer(modifier = Modifier.height(20.dp))
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp)
-                .shadow(elevation = 8.dp, shape = RoundedCornerShape(12.dp))
-                .clip(RoundedCornerShape(12.dp))
-        ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(70.dp)
-                    .background(color = Color(0xFFfafafa))
-                    .border(
-                        width = 1.dp,
-                        color = Color(0xFFfafafa),
-                        shape = RoundedCornerShape(12.dp)
-                    )
-                    .clickable {
-                        Toast
-                            .makeText(
-                                context,
-                                "successfully transferred to account screen",
-                                Toast.LENGTH_SHORT
-                            )
-                            .show()
-                        navController.navigate("ACCOUNTS")
-                    }
-            ) {
-                Image(
-                    painter = painter2,
-                    contentDescription = null,
-                    modifier = Modifier
-                        .width(50.dp)
-                        .height(50.dp)
-                        .padding(5.dp)
-                        .clip(CircleShape)
-                )
-                Text(
-                    text = " Tài Khoản",
-                    style = TextStyle(
-                        fontSize = 20.sp,
-                        color = Color(0xFF909191),
-                    ),
-                    modifier = Modifier.weight(1f)
-                )
-            }
-        }
-        Spacer(modifier = Modifier.height(20.dp))
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp)
-                .shadow(elevation = 8.dp, shape = RoundedCornerShape(12.dp))
-                .clip(RoundedCornerShape(12.dp))
-        ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(70.dp)
-                    .background(color = Color(0xFFfafafa))
-                    .border(
-                        width = 1.dp,
-                        color = Color(0xFFfafafa),
-                        shape = RoundedCornerShape(12.dp)
-                    )
-                    .clickable {
-                        Toast
-                            .makeText(
-                                context,
-                                "successfully moved to help screen",
-                                Toast.LENGTH_SHORT
-                            )
-                            .show()
-                        navController.navigate("CONTACT")
-                    }
-            ) {
-                Image(
-                    painter = painter5,
-                    contentDescription = null,
-                    modifier = Modifier
-                        .width(50.dp)
-                        .height(50.dp)
-                        .padding(5.dp)
-                        .clip(CircleShape)
-                )
-                Text(
-                    text = " Liên hệ ngay",
-                    style = TextStyle(
-                        fontSize = 20.sp,
-                        color = Color(0xFF909191),
-                    ),
-                    modifier = Modifier.weight(1f)
-                )
-            }
-        }
-        Spacer(modifier = Modifier.height(20.dp))
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp)
-                .shadow(elevation = 8.dp, shape = RoundedCornerShape(12.dp))
-                .clip(RoundedCornerShape(12.dp))
-        ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(70.dp)
-                    .background(color = Color(0xFFfafafa))
-                    .border(
-                        width = 1.dp,
-                        color = Color(0xFFfafafa),
-                        shape = RoundedCornerShape(12.dp)
-                    )
-                    .clickable {
-                    }
-            ) {
-                Image(
-                    painter = painter1,
-                    contentDescription = null,
-                    modifier = Modifier
-                        .width(50.dp)
-                        .height(50.dp)
-                        .padding(5.dp)
-                        .clip(CircleShape)
-                )
-                Text(
-                    text = " Cơ bản về ảnh / video",
-                    style = TextStyle(
-                        fontSize = 20.sp,
-                        color = Color(0xFF909191),
-                    ),
-                    modifier = Modifier.weight(1f)
-                )
-            }
-        }
-        Spacer(modifier = Modifier.height(20.dp))
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp)
-                .shadow(elevation = 8.dp, shape = RoundedCornerShape(12.dp))
-                .clip(RoundedCornerShape(12.dp))
 
-        ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
+        // Hiển thị danh sách đã lọc
+        for (item in filteredItems) {
+            Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(70.dp)
-                    .background(color = Color(0xFFfafafa))
-                    .border(
-                        width = 1.dp,
-                        color = Color(0xFFfafafa),
-                        shape = RoundedCornerShape(12.dp)
-                    )
+                    .padding(horizontal = 16.dp)
+                    .shadow(elevation = 8.dp, shape = RoundedCornerShape(12.dp))
+                    .clip(RoundedCornerShape(12.dp))
+                    .clickable {
+                        when (item.first) {
+                            "Tài Khoản", "Account" -> {
+                                Toast
+                                    .makeText(
+                                        context,
+                                        "Successfully transferred to account screen",
+                                        Toast.LENGTH_SHORT
+                                    )
+                                    .show()
+                                navController.navigate("ACCOUNTS")
+                            }
+
+                            "Liên hệ ngay", "Contact Us" -> {
+                                Toast
+                                    .makeText(
+                                        context,
+                                        "Successfully moved to help screen",
+                                        Toast.LENGTH_SHORT
+                                    )
+                                    .show()
+                                navController.navigate("CONTACT")
+                            }
+
+                            "Cơ bản về ảnh / video", "Basics of Images/Videos" -> {
+                                Toast
+                                    .makeText(
+                                        context,
+                                        "Navigating to Basics of Images/Videos",
+                                        Toast.LENGTH_SHORT
+                                    )
+                                    .show()
+                                // Thực hiện điều hướng cho mục này
+                            }
+
+                            "Chỉnh sửa và sản xuất", "Editing and Production" -> {
+                                Toast
+                                    .makeText(
+                                        context,
+                                        "Navigating to Editing and Production",
+                                        Toast.LENGTH_SHORT
+                                    )
+                                    .show()
+                                // Thực hiện điều hướng cho mục này
+                            }
+
+                            "Lưu trữ phương tiện", "Media Storage" -> {
+                                Toast
+                                    .makeText(
+                                        context,
+                                        "Navigating to Media Storage",
+                                        Toast.LENGTH_SHORT
+                                    )
+                                    .show()
+                                // Thực hiện điều hướng cho mục này
+                            }
+
+                            "Phát trực tiếp", "Live Streaming" -> {
+                                Toast
+                                    .makeText(
+                                        context,
+                                        "Navigating to Live Streaming",
+                                        Toast.LENGTH_SHORT
+                                    )
+                                    .show()
+                                // Thực hiện điều hướng cho mục này
+                            }
+
+                            "Bảo mật và pháp lý", "Security and Legal" -> {
+                                Toast
+                                    .makeText(
+                                        context,
+                                        "Navigating to Security and Legal",
+                                        Toast.LENGTH_SHORT
+                                    )
+                                    .show()
+                                // Thực hiện điều hướng cho mục này
+                            }
+
+                            "Gói đăng ký", "Subscription Packages" -> {
+                                Toast
+                                    .makeText(
+                                        context,
+                                        "Navigating to Subscription Packages",
+                                        Toast.LENGTH_SHORT
+                                    )
+                                    .show()
+                                // Thực hiện điều hướng cho mục này
+                            }
+
+                            "Khắc phục sự cố & FAQ", "Troubleshooting & FAQ" -> {
+                                Toast
+                                    .makeText(
+                                        context,
+                                        "Navigating to Troubleshooting & FAQ",
+                                        Toast.LENGTH_SHORT
+                                    )
+                                    .show()
+                                // Thực hiện điều hướng cho mục này
+
+                            }
+                        }
+                    }
             ) {
-                Image(
-                    painter = painter3,
-                    contentDescription = null,
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
-                        .width(50.dp)
-                        .height(50.dp)
-                        .padding(5.dp)
-                        .clip(CircleShape)
-                )
-                Text(
-                    text = " Chỉnh sửa và sản xuất ",
-                    style = TextStyle(
-                        fontSize = 20.sp,
-                        color = Color(0xFF909191),
-                    ),
-                    modifier = Modifier.weight(1f)
-                )
-            }
-        }
-        Spacer(modifier = Modifier.height(20.dp))
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp)
-                .shadow(elevation = 8.dp, shape = RoundedCornerShape(12.dp))
-                .clip(RoundedCornerShape(12.dp))
-        ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(70.dp)
-                    .background(color = Color(0xFFfafafa))
-                    .border(
-                        width = 1.dp,
-                        color = Color(0xFFfafafa),
-                        shape = RoundedCornerShape(12.dp)
+                        .fillMaxWidth()
+                        .height(70.dp)
+                        .background(color = Color(0xFFfafafa))
+                        .border(
+                            width = 1.dp,
+                            color = Color(0xFFfafafa),
+                            shape = RoundedCornerShape(12.dp)
+                        )
+                ) {
+                    Image(
+                        painter = item.second,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .width(50.dp)
+                            .height(50.dp)
+                            .padding(5.dp)
+                            .clip(CircleShape)
                     )
-            ) {
-                Image(
-                    painter = painter4,
-                    contentDescription = null,
-                    modifier = Modifier
-                        .width(50.dp)
-                        .height(50.dp)
-                        .padding(5.dp)
-                        .clip(CircleShape)
-                )
-                Text(
-                    text = " Lưu trữ phương tiện ",
-                    style = TextStyle(
-                        fontSize = 20.sp,
-                        color = Color(0xFF909191),
-                    ),
-                    modifier = Modifier.weight(1f)
-                )
-            }
-        }
-        Spacer(modifier = Modifier.height(20.dp))
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp)
-                .shadow(elevation = 8.dp, shape = RoundedCornerShape(12.dp))
-                .clip(RoundedCornerShape(12.dp))
-        ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(70.dp)
-                    .background(color = Color(0xFFfafafa))
-                    .border(
-                        width = 1.dp,
-                        color = Color(0xFFfafafa),
-                        shape = RoundedCornerShape(12.dp)
+                    Text(
+                        text = item.first,
+                        style = TextStyle(
+                            fontSize = 20.sp,
+                            color = Color(0xFF909191),
+                        ),
+                        modifier = Modifier.weight(1f)
                     )
-            ) {
-                Image(
-                    painter = painter6,
-                    contentDescription = null,
-                    modifier = Modifier
-                        .width(50.dp)
-                        .height(50.dp)
-                        .padding(5.dp)
-                        .clip(CircleShape)
-                )
-                Text(
-                    text = " Phát trực tiếp ",
-                    style = TextStyle(
-                        fontSize = 20.sp,
-                        color = Color(0xFF909191),
-                    ),
-                    modifier = Modifier.weight(1f)
-                )
+                }
             }
-        }
-        Spacer(modifier = Modifier.height(20.dp))
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp)
-                .shadow(elevation = 8.dp, shape = RoundedCornerShape(12.dp))
-                .clip(RoundedCornerShape(12.dp))
-        ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(70.dp)
-                    .background(color = Color(0xFFfafafa))
-                    .border(
-                        width = 1.dp,
-                        color = Color(0xFFfafafa),
-                        shape = RoundedCornerShape(12.dp)
-                    )
-            ) {
-                Image(
-                    painter = painter7,
-                    contentDescription = null,
-                    modifier = Modifier
-                        .width(50.dp)
-                        .height(50.dp)
-                        .padding(5.dp)
-                        .clip(CircleShape)
-                )
-                Text(
-                    text = " Bảo mật và pháp lý",
-                    style = TextStyle(
-                        fontSize = 20.sp,
-                        color = Color(0xFF909191),
-                    ),
-                    modifier = Modifier.weight(1f)
-                )
-            }
-        }
-        Spacer(modifier = Modifier.height(20.dp))
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp)
-                .shadow(elevation = 8.dp, shape = RoundedCornerShape(12.dp))
-                .clip(RoundedCornerShape(12.dp))
-        ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(70.dp)
-                    .background(color = Color(0xFFfafafa))
-                    .border(
-                        width = 1.dp,
-                        color = Color(0xFFfafafa),
-                        shape = RoundedCornerShape(12.dp)
-                    )
-            ) {
-                Image(
-                    painter = painter8,
-                    contentDescription = null,
-                    modifier = Modifier
-                        .width(50.dp)
-                        .height(50.dp)
-                        .padding(5.dp)
-                        .clip(CircleShape)
-                )
-                Text(
-                    text = " Gói đăng ký",
-                    style = TextStyle(
-                        fontSize = 20.sp,
-                        color = Color(0xFF909191),
-                    ),
-                    modifier = Modifier.weight(1f)
-                )
-            }
-        }
-        Spacer(modifier = Modifier.height(20.dp))
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp)
-                .shadow(elevation = 8.dp, shape = RoundedCornerShape(12.dp))
-                .clip(RoundedCornerShape(12.dp))
-        ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(70.dp)
-                    .background(color = Color(0xFFfafafa))
-                    .border(
-                        width = 1.dp,
-                        color = Color(0xFFfafafa),
-                        shape = RoundedCornerShape(12.dp)
-                    )
-            ) {
-                Image(
-                    painter = painter9,
-                    contentDescription = null,
-                    modifier = Modifier
-                        .width(50.dp)
-                        .height(50.dp)
-                        .padding(5.dp)
-                        .clip(CircleShape)
-                )
-                Text(
-                    text = "Khắc phụ sự cố & FAQ",
-                    style = TextStyle(
-                        fontSize = 20.sp,
-                        color = Color(0xFF909191),
-                    ),
-                    modifier = Modifier.weight(1f)
-                )
-            }
+            Spacer(modifier = Modifier.height(20.dp))
         }
         Spacer(modifier = Modifier.height(50.dp))
-
     }
 }
 
