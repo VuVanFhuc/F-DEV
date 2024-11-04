@@ -48,6 +48,7 @@ import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberImagePainter
 import com.example.fdev.R
 import com.example.fdev.ViewModel.ProductViewModel
+import com.example.fdev.components.BannerComponent
 import com.example.fdev.model.Product
 import com.google.firebase.auth.FirebaseAuth
 
@@ -138,48 +139,11 @@ fun LayoutHomeScreen(navController: NavHostController, retrofitService: Retrofit
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 20.dp)
-                .horizontalScroll(scrollSate),
+                .padding(top = 20.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            listTypeProduct.forEachIndexed { _, type ->
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier
-                        .padding(start = 5.dp, end = 10.dp)
-                ) {
-                    IconButton(
-                        onClick = { statusType = type.type },
-                        modifier = Modifier
-                            .shadow(
-                                elevation = 1.dp,
-                                shape = RoundedCornerShape(10.dp)
-                            )
-                            .background(
-                                Color(
-                                    if (statusType === type.type) 0xff303030 else 0xffF5F5F5
-                                ),
-                                shape = RoundedCornerShape(8.dp)
-                            )
-                            .padding(8.dp)
-                    ) {
-                        Icon(
-                            painterResource(id = type.icon),
-                            contentDescription = null,
-                            modifier = Modifier.size(26.dp, 26.dp),
-                            tint = Color(
-                                if (statusType === type.type) 0xffFFFFFF else 0xff909090
-                            )
-                        )
-                    }
-                    Text(
-                        text = type.type,
-                        modifier = Modifier.padding(top = 10.dp),
-                        fontFamily = FontFamily.Serif
-                    )
-                }
-            }
+            BannerComponent()
         }
 
 
@@ -187,7 +151,7 @@ fun LayoutHomeScreen(navController: NavHostController, retrofitService: Retrofit
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 20.dp)
+                .padding(top=20.dp, start = 30.dp),
         ) {
             LazyVerticalGrid(columns = GridCells.Fixed(2)) {
                 items(products) { item ->
