@@ -112,54 +112,60 @@ fun GetLayoutButtonBarNavigator(navHostController: NavHostController) {
                             indicatorColor = Color.White
                         )
                     )
+                } else {
+                    if (isDesigner) {
+                        NavigationBarItem(
+                            selected = isSelected == ROUTER.ADDPRODUCTDESIGNER.name,
+                            onClick = {
+                                isSelected = ROUTER.ADDPRODUCTDESIGNER.name
+                                navController.navigate(ROUTER.ADDPRODUCTDESIGNER.name) {
+                                    popUpTo(navController.graph.startDestinationId) {
+                                        inclusive = true
+                                    }
+                                }
+                            },
+                            icon = {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.add_icon),
+                                    contentDescription = null,
+                                    modifier = Modifier.size(20.dp)
+                                )
+                            },
+                            colors = NavigationBarItemDefaults.colors(
+                                selectedIconColor = Color(0xFF059BEE),
+                                unselectedIconColor = Color.Black,
+                                indicatorColor = Color.White
+                            )
+                        )
+                    } else {
+                        // Nếu không phải admin (người dùng thông thường)
+                        NavigationBarItem(
+                            selected = isSelected == ROUTER.favourite.name,
+                            onClick = {
+                                isSelected = ROUTER.favourite.name
+                                navController.navigate(ROUTER.favourite.name) {
+                                    popUpTo(navController.graph.startDestinationId) {
+                                        inclusive = true
+                                    }
+                                }
+                            },
+                            icon = {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.favourite),
+                                    contentDescription = null,
+                                    modifier = Modifier.size(25.dp)
+                                )
+                            },
+                            colors = NavigationBarItemDefaults.colors(
+                                selectedIconColor = Color(0xFF059BEE),
+                                unselectedIconColor = Color.Black,
+                                indicatorColor = Color.White
+                            )
+                        )
+                    }
                 }
 //                nếu là designer
-                if (isDesigner) {
-                    NavigationBarItem(
-                        selected = isSelected == ROUTER.ADDPRODUCTDESIGNER.name,
-                        onClick = {
-                            isSelected = ROUTER.ADDPRODUCTDESIGNER.name
-                            navController.navigate(ROUTER.ADDPRODUCTDESIGNER.name) {
-                                popUpTo(navController.graph.startDestinationId) { inclusive = true }
-                            }
-                        },
-                        icon = {
-                            Icon(
-                                painter = painterResource(id = R.drawable.add_icon),
-                                contentDescription = null,
-                                modifier = Modifier.size(20.dp)
-                            )
-                        },
-                        colors = NavigationBarItemDefaults.colors(
-                            selectedIconColor = Color(0xFF059BEE),
-                            unselectedIconColor = Color.Black,
-                            indicatorColor = Color.White
-                        )
-                    )
-                } else {
-                    // Nếu không phải admin (người dùng thông thường)
-                    NavigationBarItem(
-                        selected = isSelected == ROUTER.favourite.name,
-                        onClick = {
-                            isSelected = ROUTER.favourite.name
-                            navController.navigate(ROUTER.favourite.name) {
-                                popUpTo(navController.graph.startDestinationId) { inclusive = true }
-                            }
-                        },
-                        icon = {
-                            Icon(
-                                painter = painterResource(id = R.drawable.favourite),
-                                contentDescription = null,
-                                modifier = Modifier.size(25.dp)
-                            )
-                        },
-                        colors = NavigationBarItemDefaults.colors(
-                            selectedIconColor = Color(0xFF059BEE),
-                            unselectedIconColor = Color.Black,
-                            indicatorColor = Color.White
-                        )
-                    )
-                }
+
                 NavigationBarItem(
                     selected = isSelected == ROUTER.Notification.name,
                     onClick = {
@@ -246,17 +252,19 @@ fun GetLayoutButtonBarNavigator(navHostController: NavHostController) {
                     composable(ROUTER.ADDPRODUCT.name) {
                         AddProductScreen(navHostController)
                     }
+                } else {
+                    if (isDesigner) {
+                        composable(ROUTER.ADDPRODUCTDESIGNER.name) {
+                            AddProductDeignerScreen(navHostController)
+                        }
+                    } else {
+                        composable(ROUTER.favourite.name) {
+                            FavoritesScreen(navHostController)
+                        }
+                    }
                 }
 
-                if (isDesigner) {
-                    composable(ROUTER.ADDPRODUCTDESIGNER.name) {
-                        AddProductDeignerScreen(navHostController)
-                    }
-                } else {
-                    composable(ROUTER.favourite.name) {
-                        FavoritesScreen(navHostController)
-                    }
-                }
+
                 composable(ROUTER.Notification.name) {
                     NotificationScreen(navHostController)
                 }
@@ -272,4 +280,7 @@ fun GetLayoutButtonBarNavigator(navHostController: NavHostController) {
     }
 }
 
-
+//           adminfdev@gmail.com
+//           admifdev000
+//           designer@gmail.com
+//           fdev000
