@@ -35,6 +35,7 @@ import com.example.fdev.View.User.LayoutSetting
 import com.example.fdev.View.User.LayoutWelcome
 import com.example.fdev.View.User.NotificationScreen
 import com.example.fdev.View.User.PaymentMethodScreen
+import com.example.fdev.View.User.PrivacyPolicyScreen
 import com.example.fdev.View.User.ProfileScreen
 import com.example.fdev.View.User.ReviewScreen
 import com.example.fdev.View.User.SearchScreen
@@ -130,6 +131,9 @@ class MainActivity : ComponentActivity() {
             composable(Router.PROFILE.name) {
                 ProfileScreen(navController=navController)
             }
+            composable(Router.PRIVACYPOICY.name) {
+                PrivacyPolicyScreen(navController=navController)
+            }
 
             composable("updateProduct/{productId}/{productName}/{productPrice}/{productDescription}/{productType}") { backStackEntry ->
                 val productId = backStackEntry.arguments?.getString("productId") ?: ""
@@ -146,6 +150,7 @@ class MainActivity : ComponentActivity() {
             composable(Router.ProductAdmin1.name) {
                 ProductAdmin(navController)
             }
+
         }
     }
 
@@ -172,5 +177,6 @@ class MainActivity : ComponentActivity() {
         ProductAdmin1,
         BILL,
         PROFILE,
+        PRIVACYPOICY,
     }
 }

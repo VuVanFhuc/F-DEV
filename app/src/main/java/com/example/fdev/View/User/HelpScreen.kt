@@ -163,6 +163,7 @@ fun LayoutHelp(navController: NavHostController) {
                             }
                             "Bảo mật và pháp lý" -> {
                                 Toast.makeText(context, "Navigating to Security and Legal", Toast.LENGTH_SHORT).show()
+                                navController.navigate("PRIVACYPOICY")
                             }
                             "Gói đăng ký" -> {
                                 Toast.makeText(context, "Navigating to Subscription Packages", Toast.LENGTH_SHORT).show()
