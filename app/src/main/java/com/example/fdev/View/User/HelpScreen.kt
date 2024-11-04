@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.fdev.R
+import java.text.Normalizer
 
 @Composable
 @Preview(showBackground = true, showSystemUi = true)
@@ -60,7 +61,7 @@ fun LayoutHelp(navController: NavHostController) {
     val scrollState = rememberScrollState()
     val context = LocalContext.current
 
-    // Danh sách các mục với tên tiếng Việt và tiếng Anh
+    // Danh sách các mục với tên tiếng Việt
     val items = listOf(
         Pair("Tài Khoản", painter2),
         Pair("Liên hệ ngay", painter5),
@@ -70,22 +71,15 @@ fun LayoutHelp(navController: NavHostController) {
         Pair("Phát trực tiếp", painter6),
         Pair("Bảo mật và pháp lý", painter7),
         Pair("Gói đăng ký", painter8),
-        Pair("Khắc phục sự cố & FAQ", painter9),
-        // Thêm các mục tiếng Anh tương ứng
-        Pair("Account", painter2),
-        Pair("Contact Us", painter5),
-        Pair("Basics of Images/Videos", painter1),
-        Pair("Editing and Production", painter3),
-        Pair("Media Storage", painter4),
-        Pair("Live Streaming", painter6),
-        Pair("Security and Legal", painter7),
-        Pair("Subscription Packages", painter8),
-        Pair("Troubleshooting & FAQ", painter9)
+        Pair("Khắc phục sự cố & FAQ", painter9)
     )
 
     // Lọc danh sách dựa trên giá trị tìm kiếm
     val filteredItems = items.filter {
-        it.first.contains(search, ignoreCase = true)
+        // Kiểm tra xem mục có chứa giá trị tìm kiếm (có dấu, không dấu hoặc tiếng Anh)
+        it.first.contains(search, ignoreCase = true) ||
+                removeVietnameseDiacritics(it.first).contains(removeVietnameseDiacritics(search), ignoreCase = true) ||
+                it.first.contains(search, ignoreCase = true) // Tìm kiếm bằng tiếng Anh
     }
 
     Column(
@@ -147,104 +141,34 @@ fun LayoutHelp(navController: NavHostController) {
                     .clip(RoundedCornerShape(12.dp))
                     .clickable {
                         when (item.first) {
-                            "Tài Khoản", "Account" -> {
-                                Toast
-                                    .makeText(
-                                        context,
-                                        "Successfully transferred to account screen",
-                                        Toast.LENGTH_SHORT
-                                    )
-                                    .show()
+                            "Tài Khoản" -> {
+                                Toast.makeText(context, "Successfully transferred to account screen", Toast.LENGTH_SHORT).show()
                                 navController.navigate("ACCOUNTS")
                             }
-
-                            "Liên hệ ngay", "Contact Us" -> {
-                                Toast
-                                    .makeText(
-                                        context,
-                                        "Successfully moved to help screen",
-                                        Toast.LENGTH_SHORT
-                                    )
-                                    .show()
+                            "Liên hệ ngay" -> {
+                                Toast.makeText(context, "Successfully moved to help screen", Toast.LENGTH_SHORT).show()
                                 navController.navigate("CONTACT")
                             }
-
-                            "Cơ bản về ảnh / video", "Basics of Images/Videos" -> {
-                                Toast
-                                    .makeText(
-                                        context,
-                                        "Navigating to Basics of Images/Videos",
-                                        Toast.LENGTH_SHORT
-                                    )
-                                    .show()
-                                // Thực hiện điều hướng cho mục này
+                            "Cơ bản về ảnh / video" -> {
+                                Toast.makeText(context, "Navigating to Basics of Images/Videos", Toast.LENGTH_SHORT).show()
                             }
-
-                            "Chỉnh sửa và sản xuất", "Editing and Production" -> {
-                                Toast
-                                    .makeText(
-                                        context,
-                                        "Navigating to Editing and Production",
-                                        Toast.LENGTH_SHORT
-                                    )
-                                    .show()
-                                // Thực hiện điều hướng cho mục này
+                            "Chỉnh sửa và sản xuất" -> {
+                                Toast.makeText(context, "Navigating to Editing and Production", Toast.LENGTH_SHORT).show()
                             }
-
-                            "Lưu trữ phương tiện", "Media Storage" -> {
-                                Toast
-                                    .makeText(
-                                        context,
-                                        "Navigating to Media Storage",
-                                        Toast.LENGTH_SHORT
-                                    )
-                                    .show()
-                                // Thực hiện điều hướng cho mục này
+                            "Lưu trữ phương tiện" -> {
+                                Toast.makeText(context, "Navigating to Media Storage", Toast.LENGTH_SHORT).show()
                             }
-
-                            "Phát trực tiếp", "Live Streaming" -> {
-                                Toast
-                                    .makeText(
-                                        context,
-                                        "Navigating to Live Streaming",
-                                        Toast.LENGTH_SHORT
-                                    )
-                                    .show()
-                                // Thực hiện điều hướng cho mục này
+                            "Phát trực tiếp" -> {
+                                Toast.makeText(context, "Navigating to Live Streaming", Toast.LENGTH_SHORT).show()
                             }
-
-                            "Bảo mật và pháp lý", "Security and Legal" -> {
-                                Toast
-                                    .makeText(
-                                        context,
-                                        "Navigating to Security and Legal",
-                                        Toast.LENGTH_SHORT
-                                    )
-                                    .show()
-                                // Thực hiện điều hướng cho mục này
+                            "Bảo mật và pháp lý" -> {
+                                Toast.makeText(context, "Navigating to Security and Legal", Toast.LENGTH_SHORT).show()
                             }
-
-                            "Gói đăng ký", "Subscription Packages" -> {
-                                Toast
-                                    .makeText(
-                                        context,
-                                        "Navigating to Subscription Packages",
-                                        Toast.LENGTH_SHORT
-                                    )
-                                    .show()
-                                // Thực hiện điều hướng cho mục này
+                            "Gói đăng ký" -> {
+                                Toast.makeText(context, "Navigating to Subscription Packages", Toast.LENGTH_SHORT).show()
                             }
-
-                            "Khắc phục sự cố & FAQ", "Troubleshooting & FAQ" -> {
-                                Toast
-                                    .makeText(
-                                        context,
-                                        "Navigating to Troubleshooting & FAQ",
-                                        Toast.LENGTH_SHORT
-                                    )
-                                    .show()
-                                // Thực hiện điều hướng cho mục này
-
+                            "Khắc phục sự cố & FAQ" -> {
+                                Toast.makeText(context, "Navigating to Troubleshooting & FAQ", Toast.LENGTH_SHORT).show()
                             }
                         }
                     }
@@ -286,3 +210,9 @@ fun LayoutHelp(navController: NavHostController) {
     }
 }
 
+// Hàm để loại bỏ dấu tiếng Việt
+fun removeVietnameseDiacritics(str: String): String {
+    val normalized = Normalizer.normalize(str, Normalizer.Form.NFD)
+    return normalized.replace(Regex("\\p{InCombiningDiacriticalMarks}+"), "")
+        .replace(Regex("[^\\p{ASCII}]"), "") // Loại bỏ các ký tự không phải ASCII
+}
