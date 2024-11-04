@@ -146,7 +146,6 @@ class MainActivity : ComponentActivity() {
             composable(Router.ProductAdmin1.name) {
                 ProductAdmin(navController)
             }
-
         }
     }
 

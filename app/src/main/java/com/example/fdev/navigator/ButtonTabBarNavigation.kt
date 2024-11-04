@@ -33,6 +33,7 @@ import com.example.fdev.View.User.LayoutHomeScreen
 import com.example.fdev.View.User.NotificationScreen
 import com.example.fdev.View.User.ProfileScreen
 import com.example.fdev.View.User.SearchScreen
+import com.example.fdev.View.designer.AddProductDeignerScreen
 import com.google.firebase.auth.FirebaseAuth
 
 
@@ -43,8 +44,9 @@ enum class ROUTER {
     search,
     person,
     ADDPRODUCT,
-    PRODUCTADMIN,
-    CONGRATSADMIN
+    CONGRATSADMIN,
+    ADDPRODUCTDESIGNER,
+
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -57,6 +59,7 @@ fun GetLayoutButtonBarNavigator(navHostController: NavHostController) {
 
     val user = auth.currentUser
     val isAdmin = user?.displayName == "AdminFdev"
+    val isDesigner = user?.displayName == "designerFdev"
 
     Scaffold(
         bottomBar = {
@@ -72,7 +75,13 @@ fun GetLayoutButtonBarNavigator(navHostController: NavHostController) {
                             popUpTo(navController.graph.startDestinationId) { inclusive = true }
                         }
                     },
-                    icon = { Icon(painter = painterResource(id = R.drawable.home_anh), contentDescription = null, modifier = Modifier.size(25.dp)) },
+                    icon = {
+                        Icon(
+                            painter = painterResource(id = R.drawable.home_anh),
+                            contentDescription = null,
+                            modifier = Modifier.size(25.dp)
+                        )
+                    },
                     colors = NavigationBarItemDefaults.colors(
                         selectedIconColor = Color(0xFF059BEE),
                         unselectedIconColor = Color.Black,
@@ -90,7 +99,37 @@ fun GetLayoutButtonBarNavigator(navHostController: NavHostController) {
                                 popUpTo(navController.graph.startDestinationId) { inclusive = true }
                             }
                         },
-                        icon = { Icon(painter = painterResource(id = R.drawable.add_icon), contentDescription = null, modifier = Modifier.size(20.dp)) },
+                        icon = {
+                            Icon(
+                                painter = painterResource(id = R.drawable.add_icon),
+                                contentDescription = null,
+                                modifier = Modifier.size(20.dp)
+                            )
+                        },
+                        colors = NavigationBarItemDefaults.colors(
+                            selectedIconColor = Color(0xFF059BEE),
+                            unselectedIconColor = Color.Black,
+                            indicatorColor = Color.White
+                        )
+                    )
+                }
+//                nếu là designer
+                if (isDesigner) {
+                    NavigationBarItem(
+                        selected = isSelected == ROUTER.ADDPRODUCTDESIGNER.name,
+                        onClick = {
+                            isSelected = ROUTER.ADDPRODUCTDESIGNER.name
+                            navController.navigate(ROUTER.ADDPRODUCTDESIGNER.name) {
+                                popUpTo(navController.graph.startDestinationId) { inclusive = true }
+                            }
+                        },
+                        icon = {
+                            Icon(
+                                painter = painterResource(id = R.drawable.add_icon),
+                                contentDescription = null,
+                                modifier = Modifier.size(20.dp)
+                            )
+                        },
                         colors = NavigationBarItemDefaults.colors(
                             selectedIconColor = Color(0xFF059BEE),
                             unselectedIconColor = Color.Black,
@@ -107,7 +146,13 @@ fun GetLayoutButtonBarNavigator(navHostController: NavHostController) {
                                 popUpTo(navController.graph.startDestinationId) { inclusive = true }
                             }
                         },
-                        icon = { Icon(painter = painterResource(id = R.drawable.favourite), contentDescription = null, modifier = Modifier.size(25.dp)) },
+                        icon = {
+                            Icon(
+                                painter = painterResource(id = R.drawable.favourite),
+                                contentDescription = null,
+                                modifier = Modifier.size(25.dp)
+                            )
+                        },
                         colors = NavigationBarItemDefaults.colors(
                             selectedIconColor = Color(0xFF059BEE),
                             unselectedIconColor = Color.Black,
@@ -123,7 +168,13 @@ fun GetLayoutButtonBarNavigator(navHostController: NavHostController) {
                             popUpTo(navController.graph.startDestinationId) { inclusive = true }
                         }
                     },
-                    icon = { Icon(painter = painterResource(id = R.drawable.notification), contentDescription = null, modifier = Modifier.size(25.dp)) },
+                    icon = {
+                        Icon(
+                            painter = painterResource(id = R.drawable.notification),
+                            contentDescription = null,
+                            modifier = Modifier.size(25.dp)
+                        )
+                    },
                     colors = NavigationBarItemDefaults.colors(
                         selectedIconColor = Color(0xFF059BEE),
                         unselectedIconColor = Color.Black,
@@ -138,7 +189,13 @@ fun GetLayoutButtonBarNavigator(navHostController: NavHostController) {
                             popUpTo(navController.graph.startDestinationId) { inclusive = true }
                         }
                     },
-                    icon = { Icon(painter = painterResource(id = R.drawable.search_anh), contentDescription = null, modifier = Modifier.size(25.dp)) },
+                    icon = {
+                        Icon(
+                            painter = painterResource(id = R.drawable.search_anh),
+                            contentDescription = null,
+                            modifier = Modifier.size(25.dp)
+                        )
+                    },
                     colors = NavigationBarItemDefaults.colors(
                         selectedIconColor = Color(0xFF059BEE),
                         unselectedIconColor = Color.Black,
@@ -153,7 +210,13 @@ fun GetLayoutButtonBarNavigator(navHostController: NavHostController) {
                             popUpTo(navController.graph.startDestinationId) { inclusive = true }
                         }
                     },
-                    icon = { Icon(painter = painterResource(id = R.drawable.person), contentDescription = null, modifier = Modifier.size(25.dp)) },
+                    icon = {
+                        Icon(
+                            painter = painterResource(id = R.drawable.person),
+                            contentDescription = null,
+                            modifier = Modifier.size(25.dp)
+                        )
+                    },
                     colors = NavigationBarItemDefaults.colors(
                         selectedIconColor = Color(0xFF059BEE),
                         unselectedIconColor = Color.Black,
@@ -183,7 +246,12 @@ fun GetLayoutButtonBarNavigator(navHostController: NavHostController) {
                     composable(ROUTER.ADDPRODUCT.name) {
                         AddProductScreen(navHostController)
                     }
+                }
 
+                if (isDesigner) {
+                    composable(ROUTER.ADDPRODUCTDESIGNER.name) {
+                        AddProductDeignerScreen(navHostController)
+                    }
                 } else {
                     composable(ROUTER.favourite.name) {
                         FavoritesScreen(navHostController)
@@ -203,4 +271,5 @@ fun GetLayoutButtonBarNavigator(navHostController: NavHostController) {
         }
     }
 }
+
 
