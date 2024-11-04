@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.fdev.R
-import com.example.fdev.ViewModel.data.setingItem
+import com.example.fdev.components.setingItem
 import com.example.fdev.model.Profile
 import com.google.firebase.auth.FirebaseAuth
 

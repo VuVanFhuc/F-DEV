@@ -1,4 +1,4 @@
-package com.example.fdev.ViewModel.NetWork
+package com.example.fdev.NetWork
 
 import com.example.fdev.model.*
 import retrofit2.Call
