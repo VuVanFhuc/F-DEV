@@ -46,6 +46,7 @@ enum class ROUTER {
     ADDPRODUCT,
     CONGRATSADMIN,
     ADDPRODUCTDESIGNER,
+    PRODUCTDESIGNER
 
 }
 
@@ -187,6 +188,7 @@ fun GetLayoutButtonBarNavigator(navHostController: NavHostController) {
                         indicatorColor = Color.White
                     )
                 )
+
                 NavigationBarItem(
                     selected = isSelected == ROUTER.search.name,
                     onClick = {

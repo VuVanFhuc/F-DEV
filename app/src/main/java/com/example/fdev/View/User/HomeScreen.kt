@@ -173,6 +173,7 @@ fun ItemProduct(navController: NavHostController, model: Product) {
 
     val auth = FirebaseAuth.getInstance()
     val isAdmin = auth.currentUser?.displayName == "AdminFdev"
+    val isDesigner = auth.currentUser?.displayName == "designerFdev"
 
     Column(
         modifier = Modifier
@@ -192,6 +193,8 @@ fun ItemProduct(navController: NavHostController, model: Product) {
                         navController.currentBackStackEntry?.savedStateHandle?.set("product", model)
                         if (isAdmin) {
                             navController.navigate("ProductAdmin1")
+                        } else if (isDesigner) {
+                            navController.navigate("PRODUCTDESIGNER")
                         } else {
                             navController.navigate("PRODUCT")
                         }

@@ -3,6 +3,7 @@ package com.example.fdev.View
 
 import CartViewModel
 import RetrofitService
+import UpdateProductScreenDesigner
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -38,6 +39,7 @@ import com.example.fdev.View.User.PaymentMethodScreen
 import com.example.fdev.View.User.ProfileScreen
 import com.example.fdev.View.User.ReviewScreen
 import com.example.fdev.View.User.SearchScreen
+import com.example.fdev.View.designer.ProductDesigner
 import com.example.fdev.navigator.GetLayoutButtonBarNavigator
 import com.example.fdev.navigator.ROUTER
 import com.example.fdev.ViewModel.ProductAdminViewModel
@@ -140,11 +142,23 @@ class MainActivity : ComponentActivity() {
                 UpdateProductScreenAdmin(productId, productName, productPrice, productDescription, productType,productAdminViewModel, navController)
             }
 
+            composable("updateProductDesigner/{productId}/{productName}/{productPrice}/{productDescription}/{productType}") { backStackEntry ->
+                val productId = backStackEntry.arguments?.getString("productId") ?: ""
+                val productName = backStackEntry.arguments?.getString("productName") ?: ""
+                val productPrice = backStackEntry.arguments?.getString("productPrice") ?: ""
+                val productDescription = backStackEntry.arguments?.getString("productDescription") ?: ""
+                val productType = backStackEntry.arguments?.getString("productType") ?: ""
+                UpdateProductScreenDesigner(productId, productName, productPrice, productDescription, productType,productAdminViewModel, navController)
+            }
+
             composable(ROUTER.CONGRATSADMIN.name) {
                 CongratsAdminScreen(navController)
             }
             composable(Router.ProductAdmin1.name) {
                 ProductAdmin(navController)
+            }
+            composable(ROUTER.PRODUCTDESIGNER.name) {
+                ProductDesigner(navController)
             }
         }
     }
@@ -172,5 +186,6 @@ class MainActivity : ComponentActivity() {
         ProductAdmin1,
         BILL,
         PROFILE,
+        PRODUCTDESIGNER,
     }
 }
