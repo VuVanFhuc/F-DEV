@@ -46,7 +46,6 @@ fun AddProductScreen(navController: NavController, viewModel: ProductAdminViewMo
 
     val productResponse by viewModel.productResponse.observeAsState()
     val errorMessage by viewModel.errorMessage.observeAsState()
-
     val context = LocalContext.current
 
     Column(
