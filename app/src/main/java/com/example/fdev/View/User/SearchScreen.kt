@@ -38,7 +38,7 @@ fun SearchScreen(navController: NavHostController, retrofitService: RetrofitServ
     var isLoading by remember { mutableStateOf(false) }
 
 
-    val productViewModel: ProductViewModel = remember { ProductViewModel(retrofitService) }
+    val productViewModel: ProductViewModel = remember { ProductViewModel() }
     val products by productViewModel.productList
 
 

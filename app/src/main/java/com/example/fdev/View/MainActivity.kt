@@ -18,6 +18,8 @@ import androidx.navigation.compose.rememberNavController
 import com.example.fdev.View.Admin.ProductAdmin
 import androidx.navigation.navArgument
 import com.example.fdev.View.Admin.UpdateProductScreenAdmin
+import com.example.fdev.View.Design.AddDesignScreen
+import com.example.fdev.View.Design.HomeDesignScreen
 import com.example.fdev.View.User.AddPaymentMethod
 import com.example.fdev.View.User.CartScreen
 import com.example.fdev.View.User.CheckoutScreen
@@ -60,7 +62,7 @@ class MainActivity : ComponentActivity() {
         val cartViewModel = CartViewModel() // Initialize CartViewModel
         val productAdminViewModel: ProductAdminViewModel = viewModel() // Initialize ProductAdminViewModel
 
-        NavHost(navController = navController, startDestination = Router.WELCOME.name) {
+        NavHost(navController = navController, startDestination = Router.HOMEDESIGN.name) {
             composable(Router.WELCOME.name) {
                 LayoutWelcome(navController = navController)
             }
@@ -131,20 +133,36 @@ class MainActivity : ComponentActivity() {
                 ProfileScreen(navController=navController)
             }
 
-            composable("updateProduct/{productId}/{productName}/{productPrice}/{productDescription}/{productType}") { backStackEntry ->
+            composable("updateProduct/{productId}/{productName}/{productPrice}/{productDescription}/{productImage}") { backStackEntry ->
                 val productId = backStackEntry.arguments?.getString("productId") ?: ""
                 val productName = backStackEntry.arguments?.getString("productName") ?: ""
                 val productPrice = backStackEntry.arguments?.getString("productPrice") ?: ""
                 val productDescription = backStackEntry.arguments?.getString("productDescription") ?: ""
-                val productType = backStackEntry.arguments?.getString("productType") ?: ""
-                UpdateProductScreenAdmin(productId, productName, productPrice, productDescription, productType,productAdminViewModel, navController)
+                val productImage = backStackEntry.arguments?.getString("productImage") ?: ""
+
+                UpdateProductScreenAdmin(
+                    productId,
+                    productName,
+                    productPrice,
+                    productDescription,
+                    productImage,
+                    navController=navController
+                )
             }
+
 
             composable(ROUTER.CONGRATSADMIN.name) {
                 CongratsAdminScreen(navController)
             }
             composable(Router.ProductAdmin1.name) {
                 ProductAdmin(navController)
+            }
+
+            composable(Router.ADDDESIGN.name) {
+                AddDesignScreen(navController = navController)
+            }
+            composable(Router.HOMEDESIGN.name) {
+                HomeDesignScreen(navController = navController)
             }
 
         }
@@ -173,5 +191,7 @@ class MainActivity : ComponentActivity() {
         ProductAdmin1,
         BILL,
         PROFILE,
+        ADDDESIGN,
+        HOMEDESIGN
     }
 }

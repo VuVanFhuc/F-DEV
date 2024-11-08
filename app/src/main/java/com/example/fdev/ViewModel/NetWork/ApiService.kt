@@ -1,16 +1,12 @@
 package com.example.fdev.ViewModel.NetWork
 
 import com.example.fdev.model.*
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.*
-import retrofit2.http.Body
-import retrofit2.http.DELETE
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.PUT
-import retrofit2.http.Path
-import retrofit2.http.Query
+
 
 interface ApiService {
 
@@ -84,5 +80,21 @@ interface ApiService {
 
     @GET("payment/{userId}")
     fun getPayments(@Path("userId") userId: String): Call<PaymentResponse>
+
+    // Lấy danh sách Design
+
+        @GET("design/get-list-design")
+        suspend fun getDesigns(): Response<DesignResponseWrapper>
+
+        @Multipart
+        @POST("design/add-design")
+        suspend fun addDesign(
+            @Part("name") name: RequestBody,
+            @Part("price") price: RequestBody,
+            @Part("description") description: RequestBody,
+            @Part image: MultipartBody.Part,
+            @Part("type") type: RequestBody?
+        ): Response<DesignResponse>
+
 }
 
