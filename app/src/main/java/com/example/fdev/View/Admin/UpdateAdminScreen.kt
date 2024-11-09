@@ -18,26 +18,30 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import coil.compose.rememberImagePainter
 import com.example.fdev.R
 import com.example.fdev.ViewModel.ProductAdminViewModel
 import com.example.fdev.model.ProductAdminRequest
 
 @Composable
 fun UpdateProductScreenAdmin(
-
     productId: String,
     productName: String,
     productPrice: String,
     productDescription: String,
-    productType: String,
-    productAdminViewModel: ProductAdminViewModel, navController: NavHostController
+    productImage: String,
+    navController: NavHostController
 ) {
+    val productAdminViewModel: ProductAdminViewModel = viewModel()
     var name by remember { mutableStateOf(productName) }
     var price by remember { mutableStateOf(productPrice) }
     var description by remember { mutableStateOf(productDescription) }
-    var imageUrl by remember { mutableStateOf("") }
-    val context= LocalContext.current
+    var image by remember { mutableStateOf(productImage) } // Gán giá trị ban đầu từ productImage
+    val context = LocalContext.current
+
     Column(
         modifier = Modifier
             .padding(20.dp, top = 65.dp, end = 20.dp)
@@ -55,18 +59,21 @@ fun UpdateProductScreenAdmin(
                 contentDescription = "Back",
                 modifier = Modifier
                     .size(25.dp)
-                    .clickable { navController.popBackStack() }, // Quay lại màn hình trước
+                    .clickable { navController.popBackStack() },
                 contentScale = ContentScale.FillBounds,
             )
             Text(
                 text = "UPDATE PRODUCT",
-                modifier = Modifier.align(Alignment.CenterVertically),
+                modifier = Modifier
+                    .weight(1f) // Chiếm không gian còn lại
+                    .wrapContentWidth(Alignment.CenterHorizontally), // Căn giữa
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Medium
             )
         }
 
         Spacer(modifier = Modifier.height(20.dp))
+
 
         // Product Name
         OutlinedTextField(
@@ -102,8 +109,8 @@ fun UpdateProductScreenAdmin(
 
         // Product Image URL
         OutlinedTextField(
-            value = imageUrl,
-            onValueChange = { imageUrl = it },
+            value = image,
+            onValueChange = { image = it },
             label = { Text("Image") },
             modifier = Modifier.fillMaxWidth()
         )
@@ -113,16 +120,15 @@ fun UpdateProductScreenAdmin(
         // Save Button
         Button(
             onClick = {
-                // Xử lý khi bấm nút Save, gửi dữ liệu lên server
                 val productRequest = ProductAdminRequest(
                     name = name,
                     price = price.toDoubleOrNull() ?: 0.0,
                     description = description,
-                    image = imageUrl,
-                    type = productType // Truyền loại sản phẩm
+                    image = image,
+                    type = ""
                 )
                 productAdminViewModel.updateProduct(productId, productRequest)
-                navController.navigate("CONGRATSADMIN")
+                navController.navigate("home")
             },
             modifier = Modifier.size(290.dp, 50.dp),
             colors = ButtonDefaults.buttonColors(

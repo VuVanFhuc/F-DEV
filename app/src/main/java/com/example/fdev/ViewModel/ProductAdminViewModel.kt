@@ -10,8 +10,6 @@ import com.example.fdev.model.ProductAdminRequest
 import com.example.fdev.model.ProductAdminResponse
 import kotlinx.coroutines.launch
 class ProductAdminViewModel: ViewModel() {
-
-
     private val apiService = RetrofitService().fdevApiService
     val productResponse: MutableLiveData<ProductAdminResponse?> = MutableLiveData()
     val errorMessage: MutableLiveData<String> = MutableLiveData()

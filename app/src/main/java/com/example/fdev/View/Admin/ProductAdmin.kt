@@ -1,7 +1,7 @@
 package com.example.fdev.View.Admin
 
-
 import CartViewModel
+import android.net.Uri
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -33,19 +33,15 @@ import com.example.fdev.R
 import com.example.fdev.ViewModel.ProductAdminViewModel
 import com.example.fdev.model.Product
 
-
 @Composable
 fun ProductAdmin(navController: NavHostController) {
-    // Khởi tạo ProductAdminViewModel
     val productAdminViewModel: ProductAdminViewModel = viewModel()
     val cartViewModel: CartViewModel = viewModel()
     val scrollState = rememberScrollState()
     val product = navController.previousBackStackEntry?.savedStateHandle?.get<Product>("product")
     val context = LocalContext.current
 
-
     var showDialog by remember { mutableStateOf(false) }
-
 
     Column(
         modifier = Modifier
@@ -60,7 +56,6 @@ fun ProductAdmin(navController: NavHostController) {
                 .padding(top = 30.dp),
             contentAlignment = Alignment.TopCenter
         ) {
-            // Image display
             product?.let {
                 Image(
                     painter = rememberImagePainter(data = it.image),
@@ -69,46 +64,31 @@ fun ProductAdmin(navController: NavHostController) {
                         .padding(start = 65.dp)
                         .fillMaxSize()
                         .width(200.dp)
-                        .clip(
-                            shape = RoundedCornerShape(bottomStart = 50.dp)
-                        ),
+                        .clip(RoundedCornerShape(bottomStart = 50.dp)),
                     contentScale = ContentScale.Crop
                 )
             }
 
-
             // Back button
             IconButton(
-                onClick = {
-                    navController.popBackStack()
-                },
+                onClick = { navController.popBackStack() },
                 modifier = Modifier
                     .padding(end = 260.dp, top = 20.dp)
-                    .shadow(
-                        elevation = 3.dp,
-                        shape = RoundedCornerShape(10.dp)
-                    )
-                    .background(
-                        color = Color.White,
-                        shape = RoundedCornerShape(10.dp)
-                    )
+                    .shadow(elevation = 3.dp, shape = RoundedCornerShape(10.dp))
+                    .background(color = Color.White, shape = RoundedCornerShape(10.dp))
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.icon_back),
                     contentDescription = null,
-                    modifier = Modifier.size(15.dp, 15.dp)
+                    modifier = Modifier.size(15.dp)
                 )
             }
-
 
             // Radio buttons
             Column(
                 modifier = Modifier
                     .padding(end = 260.dp, top = 120.dp)
-                    .shadow(
-                        elevation = 3.dp,
-                        shape = RoundedCornerShape(30.dp)
-                    )
+                    .shadow(elevation = 3.dp, shape = RoundedCornerShape(30.dp))
                     .background(color = Color.White, shape = RoundedCornerShape(10.dp))
                     .padding(10.dp)
             ) {
@@ -135,7 +115,6 @@ fun ProductAdmin(navController: NavHostController) {
             }
         }
 
-
         // Product details
         Column(
             modifier = Modifier
@@ -150,7 +129,6 @@ fun ProductAdmin(navController: NavHostController) {
                     fontSize = 24.sp,
                 )
             }
-
 
             Row(
                 modifier = Modifier
@@ -168,7 +146,6 @@ fun ProductAdmin(navController: NavHostController) {
                     )
                 }
             }
-
 
             // Star rating
             Row(
@@ -197,7 +174,6 @@ fun ProductAdmin(navController: NavHostController) {
                 Spacer(modifier = Modifier.weight(1f))
             }
 
-
             // Product description
             Text(
                 text = product?.description ?: "",
@@ -208,7 +184,6 @@ fun ProductAdmin(navController: NavHostController) {
                 lineHeight = 22.sp,
                 fontFamily = FontFamily.Serif
             )
-
 
             // Favourite and Add to Cart buttons
             Row(
@@ -224,7 +199,6 @@ fun ProductAdmin(navController: NavHostController) {
                         .weight(1f)
                         .height(60.dp)
                         .clickable {
-                            // Show confirmation dialog
                             showDialog = true
                         },
                     contentAlignment = Alignment.Center
@@ -244,10 +218,7 @@ fun ProductAdmin(navController: NavHostController) {
                         .height(60.dp)
                         .clickable {
                             product?.let {
-                                // Truyền thông tin sản phẩm khi nhấn nút "Update to cart"
-                                navController.navigate("updateProduct/${it.id}/${it.name}/${it.price}/${it.description}/${it.type}")
-
-                            }
+                                navController.navigate("updateProduct/${it.id}/${Uri.encode(it.name)}/${it.price}/${Uri.encode(it.description)}/${Uri.encode(it.image)}")                            }
                         },
                     contentAlignment = Alignment.Center
                 ) {
@@ -258,7 +229,6 @@ fun ProductAdmin(navController: NavHostController) {
                     )
                 }
             }
-
 
             // Confirmation dialog
             if (showDialog) {
@@ -292,7 +262,6 @@ fun ProductAdmin(navController: NavHostController) {
     }
 }
 
-
 // Reuse CustomRadioButton component
 @Composable
 fun CustomRadioButton(
@@ -321,6 +290,3 @@ fun CustomRadioButton(
         }
     }
 }
-
-
-
