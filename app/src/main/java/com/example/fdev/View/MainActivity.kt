@@ -27,6 +27,8 @@ import com.example.fdev.View.User.LayoutAccounts
 import com.example.fdev.View.User.LayoutBillScreen
 import com.example.fdev.View.User.LayoutContact
 import com.example.fdev.View.User.LayoutHelp
+import com.example.fdev.View.User.LayoutHistoryBuyProductScreen
+
 import com.example.fdev.View.User.LayoutLoginScreen
 import com.example.fdev.View.User.LayoutMail
 import com.example.fdev.View.User.LayoutProductScreen
@@ -58,7 +60,7 @@ class MainActivity : ComponentActivity() {
     fun MainNavigation() {
         val navController = rememberNavController()
         val retrofitService = RetrofitService() // Initialize RetrofitService
-        val cartViewModel = CartViewModel() // Initialize CartViewModel
+        val cartViewModel = CartViewModel()  // Initialize CartViewModel
         val productAdminViewModel: ProductAdminViewModel = viewModel() // Initialize ProductAdminViewModel
 
         NavHost(navController = navController, startDestination = Router.WELCOME.name) {
@@ -121,6 +123,9 @@ class MainActivity : ComponentActivity() {
                 val productId = backStackEntry.arguments?.getString("productId") ?: ""
                 ReviewScreen(navController = navController,productId=productId, productName = String())
             }
+            composable(Router.HISTORYBUYPRODUCT.name){
+                LayoutHistoryBuyProductScreen(navController = navController)
+            }
 
             composable(Router.ACCOUNTS.name) {
                 LayoutAccounts(navController = navController)
@@ -164,6 +169,7 @@ class MainActivity : ComponentActivity() {
         HELP,
         CONTACT,
         MAIL,
+        HISTORYBUYPRODUCT,
         CART,
         CHECKOUT,
         FAVORITES,

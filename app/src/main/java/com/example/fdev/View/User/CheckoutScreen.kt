@@ -1,9 +1,12 @@
 package com.example.fdev.View.User
 
 import RetrofitService
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -22,22 +25,25 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import android.util.Log
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.fdev.R
 import com.example.fdev.model.PaymentData
 import com.example.fdev.model.PaymentResponse
+import com.google.firebase.auth.FirebaseAuth
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CheckoutScreen(navController: NavHostController,totalPrice: String,retrofitService: RetrofitService) {
+fun CheckoutScreen(navController: NavHostController, totalPrice: String, retrofitService: RetrofitService) {
     var paymentMethods by remember { mutableStateOf(listOf<PaymentData>()) }
 
+    // Lấy displayName và email từ Firebase
+    val auth = FirebaseAuth.getInstance()
+    val currentUser = auth.currentUser
+    var displayName by remember { mutableStateOf(currentUser?.displayName ?: "Unknown") }
+    var email by remember { mutableStateOf(currentUser?.email ?: "Unknown") }
 
     // API Call to fetch payment methods
     LaunchedEffect(Unit) {
@@ -66,7 +72,7 @@ fun CheckoutScreen(navController: NavHostController,totalPrice: String,retrofitS
         })
     }
 
-    // Scaffold layout with TopBar and LazyColumn for payment methods
+    // Scaffold layout with TopBar and LazyColumn for scrolling
     Scaffold(
         topBar = {
             TopAppBar(
@@ -97,63 +103,75 @@ fun CheckoutScreen(navController: NavHostController,totalPrice: String,retrofitS
             )
         }
     ) { innerPadding ->
-        Column(
+        LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
                 .padding(horizontal = 16.dp, vertical = 8.dp),
             verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
-            // Receiving Email Address Section
-            SectionHeader("Receiving Email Address")
-            EditableInfoCard(title = "Nguyen Minh Dang", subtitle = "ttwmobile@gmail.com")
-
-            // Payment Method Section
-            SectionHeader("Payment Methods")
-
-            // LazyColumn to display the list of payment methods
-            if (paymentMethods.isNotEmpty()) {
-                LazyColumn {
-                    items(paymentMethods) { paymentMethod ->
-                        PaymentMethodCard(paymentMethod)  // Truyền đối tượng PaymentData
-                    }
-                }
-            } else {
-                Text(text = "No payment methods available", color = Color.Gray) // Hiển thị thông báo nếu không có phương thức thanh toán
+            item {
+                // Receiving Email Address Section
+                SectionHeader("Receiving Email Address")
+                EditableInfoCard(title = displayName, subtitle = email)
             }
 
-            AddPaymentMethodButton(navController = navController)
+            item {
+                // Payment Method Section
+                SectionHeader("Payment Methods")
+            }
 
-            // Note Section
-            Text(
-                text = "Note",
-                style = MaterialTheme.typography.bodyMedium.copy(
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold
+            // LazyColumn items for payment methods
+            items(paymentMethods) { paymentMethod ->
+                PaymentMethodCard(paymentMethod)  // Truyền đối tượng PaymentData
+            }
+
+            item {
+                if (paymentMethods.isEmpty()) {
+                    Text(text = "No payment methods available", color = Color.Gray) // Hiển thị thông báo nếu không có phương thức thanh toán
+                }
+            }
+
+            item {
+                AddPaymentMethodButton(navController = navController)
+            }
+
+            item {
+                // Note Section
+                Text(
+                    text = "Note",
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold
+                    )
                 )
-            )
-            Text(
-                text = "After purchasing, the product will be sent to your email address, please check your email to receive the goods",
-                style = MaterialTheme.typography.bodySmall.copy(color = Color.Gray),
-                modifier = Modifier.padding(vertical = 4.dp)
-            )
+                Text(
+                    text = "After purchasing, the product will be sent to your email address, please check your email to receive the goods",
+                    style = MaterialTheme.typography.bodySmall.copy(color = Color.Gray),
+                    modifier = Modifier.padding(vertical = 4.dp)
+                )
+            }
 
-            // Order Summary Section
-            OrderSummary(totalPrice = totalPrice)
+            item {
+                // Order Summary Section
+                OrderSummary(totalPrice = totalPrice)
+            }
 
-            // Submit Order Button
-            Spacer(modifier = Modifier.height(16.dp))
-            Button(
-                onClick = {
-                    navController.navigate("CONGRATSSCREEN")
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(60.dp),
-                shape = RoundedCornerShape(12.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color.Black)
-            ) {
-                Text("SUBMIT ORDER", color = Color.White, style = MaterialTheme.typography.bodyLarge)
+            item {
+                // Submit Order Button
+                Spacer(modifier = Modifier.height(16.dp))
+                Button(
+                    onClick = {
+                        navController.navigate("CONGRATSSCREEN")
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(60.dp),
+                    shape = RoundedCornerShape(12.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = Color.Black)
+                ) {
+                    Text("SUBMIT ORDER", color = Color.White, style = MaterialTheme.typography.bodyLarge)
+                }
             }
         }
     }
@@ -342,7 +360,6 @@ fun OrderSummary(totalPrice: String) {
         modifier = Modifier.fillMaxWidth()
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
-
             Divider(color = Color.Gray, thickness = 1.dp)
             Spacer(modifier = Modifier.height(8.dp))
             Row(
@@ -359,5 +376,5 @@ fun OrderSummary(totalPrice: String) {
 @Preview(showBackground = true)
 @Composable
 fun CheckoutScreenPreview() {
-    CheckoutScreen(navController = rememberNavController(), retrofitService = RetrofitService(),totalPrice = "100.00")
+    CheckoutScreen(navController = rememberNavController(), retrofitService = RetrofitService(), totalPrice = "100.00")
 }
