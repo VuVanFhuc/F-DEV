@@ -118,6 +118,7 @@ fun UpdateProductScreenDesigner(
         // Nút cập nhật sản phẩm
         Button(
             onClick = {
+                navController.navigate("CONGRATSADMIN")
                 val price = designPriceState.toDoubleOrNull()
                 if (price != null && price >= 0) {
                     // Truyền mảng byte ảnh cho API nếu có hình ảnh
@@ -153,20 +154,13 @@ fun UpdateProductScreenDesigner(
             )
         }
 
-        Button(
-            onClick = { navController.navigate("HOMEDESIGN") },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 10.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF059BEE)),
-            shape = RoundedCornerShape(8.dp)
-        ) {
-            Text("Back HomeDesign", color = Color.White)
-        }
+
 
         // Xử lý thông báo từ API
         LaunchedEffect(updateDesignResponse, errorMessage) {
             updateDesignResponse?.let {
+                navController.navigate("CONGRATSADMIN") {
+                    popUpTo("UpdateProductScreenDesigner") { inclusive = true }
                 Toast.makeText(context, "Cập nhật sản phẩm thành công!", Toast.LENGTH_SHORT).show()
             }
             errorMessage?.let {
@@ -176,4 +170,5 @@ fun UpdateProductScreenDesigner(
             }
         }
     }
+}
 }

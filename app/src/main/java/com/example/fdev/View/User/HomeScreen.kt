@@ -60,7 +60,7 @@ import com.google.firebase.auth.FirebaseAuth
 @Composable
 fun LayoutHomeScreen(navController: NavHostController, retrofitService: RetrofitService) {
 
-    val scrollSate = rememberScrollState()
+    val scrollState = rememberScrollState()
     var statusType by remember { mutableStateOf("Popular") }
     val listTypeProduct = mutableListOf(
         TypeProduct("Popular", R.drawable.star_1),
@@ -79,6 +79,11 @@ fun LayoutHomeScreen(navController: NavHostController, retrofitService: Retrofit
     LaunchedEffect(Unit) {
         productViewModel.fetchProductList()
     }
+
+    val auth = FirebaseAuth.getInstance()
+    val user = auth.currentUser
+    val isAdmin = user?.displayName == "AdminFdev"
+    val isDesigner = user?.displayName == "designerFdev"
 
     Column(
         modifier = Modifier
@@ -143,20 +148,24 @@ fun LayoutHomeScreen(navController: NavHostController, retrofitService: Retrofit
             BannerComponent()
         }
 
-        Column (
-            modifier = Modifier
-                .fillMaxWidth()
-                .clickable { navController.navigate("HOMEDESIGN") }
-        ) {
-            Text(
-                "Xem thêm"
-            )
+        // Conditional display of "Xem thêm"
+        if (!isAdmin && !isDesigner) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { navController.navigate("HOMEDESIGN") },
+                horizontalArrangement = Arrangement.End
+            ) {
+                Text("Xem thêm")
+                Image(painter = painterResource(id = R.drawable.next), contentDescription = "", modifier = Modifier.size(20.dp))
+            }
         }
+
         // ListProduct: Thay đổi để hiển thị sản phẩm từ API
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top=20.dp, start = 30.dp),
+                .padding(15.dp),
         ) {
             LazyVerticalGrid(columns = GridCells.Fixed(2)) {
                 items(products) { item ->
@@ -167,20 +176,17 @@ fun LayoutHomeScreen(navController: NavHostController, retrofitService: Retrofit
     }
 }
 
-
-
-
 class TypeProduct(var type: String, var icon: Int)
+
 @Composable
 fun ItemProduct(navController: NavHostController, model: Product) {
-
     val auth = FirebaseAuth.getInstance()
     val isAdmin = auth.currentUser?.displayName == "AdminFdev"
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(end = 25.dp, bottom = 15.dp)
+            .padding(end = 15.dp, bottom = 15.dp)
     ) {
         Box(
             modifier = Modifier.fillMaxSize(),
@@ -219,7 +225,7 @@ fun ItemProduct(navController: NavHostController, model: Product) {
             color = Color(0xff606060)
         )
         Text(
-            text = "$"+model.price.toString(),
+            text = "$" + model.price.toString(),
             modifier = Modifier.padding(top = 5.dp),
             fontSize = 15.sp,
             fontFamily = FontFamily.Serif,
@@ -228,11 +234,9 @@ fun ItemProduct(navController: NavHostController, model: Product) {
         )
     }
 }
+
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
 fun HomeScreen() {
     LayoutHomeScreen(navController = rememberNavController(), retrofitService = RetrofitService())
 }
-
-
-

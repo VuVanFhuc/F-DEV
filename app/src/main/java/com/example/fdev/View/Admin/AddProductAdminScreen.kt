@@ -65,7 +65,9 @@ fun AddProductScreen(navController: NavController, viewModel: ProductAdminViewMo
                 contentDescription = null,
                 modifier = Modifier
                     .size(25.dp)
-                    .clickable { },
+                    .clickable {
+                        navController.popBackStack()
+                    },
                 contentScale = ContentScale.FillBounds,
             )
             Text(

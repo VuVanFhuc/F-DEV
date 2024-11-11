@@ -20,6 +20,8 @@ import androidx.navigation.navArgument
 import com.example.fdev.View.Admin.UpdateProductScreenAdmin
 import com.example.fdev.View.Design.AddDesignScreen
 import com.example.fdev.View.Design.HomeDesignScreen
+import com.example.fdev.View.Design.ProductDesigner
+import com.example.fdev.View.Design.UpdateProductScreenDesigner
 import com.example.fdev.View.User.AddPaymentMethod
 import com.example.fdev.View.User.CartScreen
 import com.example.fdev.View.User.CheckoutScreen

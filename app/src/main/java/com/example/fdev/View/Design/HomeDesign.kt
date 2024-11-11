@@ -4,13 +4,10 @@ import DesignViewModel
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -18,7 +15,6 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -26,7 +22,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType.Companion.Uri
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -34,12 +29,15 @@ import androidx.navigation.NavHostController
 import coil.compose.rememberImagePainter
 import com.example.fdev.model.DesignResponse
 import com.example.fdev.R
+import com.google.firebase.auth.FirebaseAuth
 
 @Composable
 fun HomeDesignScreen(navController: NavHostController, viewModel: DesignViewModel = viewModel()) {
     val context = LocalContext.current
     val designs by viewModel.designResponse.observeAsState(emptyList())
     val errorMessage by viewModel.errorMessage.observeAsState("")
+    val auth = FirebaseAuth.getInstance()
+    val isDesigner = auth.currentUser?.displayName == "designerFdev"
 
     // Fetch designs when the screen is first displayed
     LaunchedEffect(Unit) {
@@ -49,7 +47,7 @@ fun HomeDesignScreen(navController: NavHostController, viewModel: DesignViewMode
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(10.dp)
+            .padding(top = 30.dp)
     ) {
         // Title Row (with search and profile icons)
         Row(
@@ -63,7 +61,7 @@ fun HomeDesignScreen(navController: NavHostController, viewModel: DesignViewMode
                 Icon(
                     painter = painterResource(id = R.drawable.search_anh),
                     contentDescription = null,
-                    modifier = Modifier.size(20.dp, 20.dp),
+                    modifier = Modifier.size(20.dp),
                     tint = Color(0xff808080)
                 )
             }
@@ -85,7 +83,7 @@ fun HomeDesignScreen(navController: NavHostController, viewModel: DesignViewMode
                 Icon(
                     painter = painterResource(id = R.drawable.person),
                     contentDescription = null,
-                    modifier = Modifier.size(20.dp, 20.dp),
+                    modifier = Modifier.size(20.dp),
                     tint = Color(0xff808080)
                 )
             }
@@ -97,35 +95,14 @@ fun HomeDesignScreen(navController: NavHostController, viewModel: DesignViewMode
             modifier = Modifier.weight(1f) // Ensure the grid takes available space
         ) {
             items(designs) { design ->
-                DesignCard(design = design, navController = navController)
+                DesignCard(design = design, navController = navController, isDesigner = isDesigner)
             }
         }
     }
-
-    // Place the FloatingActionButton outside the Column to ensure it stays in the bottom right corner
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(50.dp),
-        contentAlignment = Alignment.BottomEnd
-    ) {
-        FloatingActionButton(
-            onClick = { navController.navigate("ADDDESIGN") },
-            modifier = Modifier.size(60.dp),
-            shape = CircleShape,
-            containerColor = Color(0xFF7B1FA2),
-            contentColor = Color.White
-        ) {
-            Icon(
-                painter = painterResource(id = R.drawable.add),
-                contentDescription = "Add",
-                modifier = Modifier.size(24.dp)
-            )
-        }
-    }
 }
+
 @Composable
-fun DesignCard(design: DesignResponse, navController: NavHostController) {
+fun DesignCard(design: DesignResponse, navController: NavHostController, isDesigner: Boolean) {
     val imagePainter = rememberImagePainter(design.image)
 
     Column(
@@ -144,8 +121,11 @@ fun DesignCard(design: DesignResponse, navController: NavHostController) {
                     .clip(shape = RoundedCornerShape(15.dp))
                     .clickable {
                         navController.currentBackStackEntry?.savedStateHandle?.set("design", design)
-                        // Set design data in savedStateHandle and navigate to ProductDesigner
-                        navController.navigate("PRODUCTDESIGNER")
+                        if (isDesigner) {
+                            navController.navigate("PRODUCTDESIGNER")
+                        } else {
+                            navController.navigate("PRODUCT")
+                        }
                     },
                 painter = imagePainter,
                 contentDescription = null,
@@ -161,12 +141,11 @@ fun DesignCard(design: DesignResponse, navController: NavHostController) {
             color = Color(0xff606060)
         )
         Text(
-            text = "$" + design.price.toString(),
-            modifier = Modifier.padding(top = 5.dp),
-            fontSize = 15.sp,
-            fontFamily = FontFamily.Serif,
-            color = Color(0xff303030),
-            fontWeight = FontWeight(700)
+            text = "$${design.price}",
+            modifier = Modifier.padding(top = 4.dp),
+            fontSize = 14.sp,
+            fontFamily = FontFamily.SansSerif,
+            color = Color(0xff606060)
         )
     }
 }

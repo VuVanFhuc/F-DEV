@@ -126,7 +126,11 @@ fun AddDesignScreen(
                         context
                     )
                 } else {
-                    Toast.makeText(context, "Giá phải lớn hơn 0 và cần chọn ảnh", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        context,
+                        "Giá phải lớn hơn 0 và cần chọn ảnh",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             },
             modifier = Modifier
@@ -143,25 +147,19 @@ fun AddDesignScreen(
             )
         }
 
-        Button(
-            onClick = { navController.navigate("HOMEDESIGN") },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 10.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF059BEE)),
-            shape = RoundedCornerShape(8.dp)
-        ) {
-            Text("Back HomeDesign", color = Color.White)
-        }
 
         // Xử lý thông báo từ API
         LaunchedEffect(addDesignResponse, errorMessage) {
             addDesignResponse?.let {
-                Toast.makeText(context, "Thêm sản phẩm thành công!", Toast.LENGTH_SHORT).show()
-            }
-            errorMessage?.let {
-                if (it.isNotEmpty()) {
-                    Toast.makeText(context, "Thêm sản phẩm thất bại: $it", Toast.LENGTH_SHORT).show()
+                navController.navigate("CONGRATSADMIN") {
+                    popUpTo("AddDesignScreen") { inclusive = true }
+                    Toast.makeText(context, "Thêm sản phẩm thành công!", Toast.LENGTH_SHORT).show()
+                }
+                errorMessage?.let {
+                    if (it.isNotEmpty()) {
+                        Toast.makeText(context, "Thêm sản phẩm thất bại: $it", Toast.LENGTH_SHORT)
+                            .show()
+                    }
                 }
             }
         }

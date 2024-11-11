@@ -29,6 +29,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.fdev.R
 import com.example.fdev.View.Admin.AddProductScreen
 import com.example.fdev.View.Design.AddDesignScreen
+import com.example.fdev.View.Design.HomeDesignScreen
 import com.example.fdev.View.User.FavoritesScreen
 import com.example.fdev.View.User.LayoutHomeScreen
 import com.example.fdev.View.User.NotificationScreen
@@ -47,7 +48,8 @@ enum class ROUTER {
     ADDPRODUCT,
     CONGRATSADMIN,
     ADDPRODUCTDESIGNER,
-    PRODUCTDESIGNER
+    PRODUCTDESIGNER,
+    HOMEDESIGN
 
 }
 
@@ -70,7 +72,7 @@ fun GetLayoutButtonBarNavigator(navHostController: NavHostController) {
             ) {
                 // Home - luôn hiển thị
                 NavigationBarItem(
-                    selected = isSelected == ROUTER.home.name,
+                    selected = isSelected == (if (isDesigner) ROUTER.HOMEDESIGN.name else ROUTER.home.name),
                     onClick = {
                         isSelected = ROUTER.home.name
                         navController.navigate(ROUTER.home.name) {
@@ -249,7 +251,14 @@ fun GetLayoutButtonBarNavigator(navHostController: NavHostController) {
                 startDestination = isSelected
             ) {
                 composable(ROUTER.home.name) {
-                    LayoutHomeScreen(navHostController, RetrofitService())
+                    if (!isDesigner) {
+                        LayoutHomeScreen(navHostController, RetrofitService())
+                    } else {
+                        HomeDesignScreen(navHostController)
+                    }
+                }
+                composable(ROUTER.HOMEDESIGN.name) {
+                    HomeDesignScreen(navHostController)
                 }
                 if (isAdmin) {
                     composable(ROUTER.ADDPRODUCT.name) {
