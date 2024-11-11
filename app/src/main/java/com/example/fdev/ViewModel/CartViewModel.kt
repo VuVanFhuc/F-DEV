@@ -1,3 +1,5 @@
+// CartViewModel
+
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -12,15 +14,16 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import com.google.firebase.auth.FirebaseAuth
 
-class CartViewModel() : ViewModel() {
+class CartViewModel : ViewModel() {
     private val apiService = RetrofitService().fdevApiService
     private val _cartItems = MutableStateFlow<List<CartItem>>(emptyList())
     val cartItems: StateFlow<List<CartItem>> = _cartItems
     private val _totalPrice = MutableLiveData<Double>()
     val totalPrice: LiveData<Double> = _totalPrice
 
+    val billCount: Int
+        get() = _cartItems.value.size
 
-    // Hàm lấy giỏ hàng từ MongoDB qua API
     fun getCartItems() {
         val currentUser = FirebaseAuth.getInstance().currentUser
         val userName = currentUser?.displayName ?: ""
@@ -39,7 +42,7 @@ class CartViewModel() : ViewModel() {
                                     image = cartProduct.image ?: ""
                                 )
                             }
-                            getTotalPrice() // Cập nhật tổng giá trị giỏ hàng sau khi lấy sản phẩm
+                            getTotalPrice()
                         }
                     } else {
                         Log.e("CartViewModel", "Error getting cart: ${response.code()} - ${response.message()}")
@@ -53,10 +56,9 @@ class CartViewModel() : ViewModel() {
         }
     }
 
-    // Thêm tất cả sản phẩm yêu thích vào giỏ hàng
     fun addAllFavoritesToCart(favoriteItems: List<FavouriteItem>) {
-        val currentUser  = FirebaseAuth.getInstance().currentUser
-        val userName = currentUser ?.displayName ?: ""
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        val userName = currentUser?.displayName ?: ""
 
         if (userName.isNotBlank()) {
             val request = AddAllFromFavouriteRequest(userName)
@@ -65,7 +67,7 @@ class CartViewModel() : ViewModel() {
                 try {
                     val response = apiService.addAllFromFavourite(request)
                     if (response.isSuccessful) {
-                        getCartItems() // Gọi lại hàm lấy giỏ hàng để cập nhật
+                        getCartItems()
                     } else {
                         Log.e("CartViewModel", "Error adding all favorites to cart: ${response.code()} - ${response.message()}")
                     }
@@ -78,7 +80,6 @@ class CartViewModel() : ViewModel() {
         }
     }
 
-    // Xóa sản phẩm khỏi giỏ hàng và cập nhật UI
     fun removeFromCart(productName: String): Boolean {
         val currentUser = FirebaseAuth.getInstance().currentUser
         val userName = currentUser?.displayName ?: ""
@@ -89,7 +90,7 @@ class CartViewModel() : ViewModel() {
                     val response = apiService.removeFromCart(userName, productName)
                     if (response.isSuccessful) {
                         _cartItems.value = _cartItems.value.filter { it.name != productName }
-                        getTotalPrice() // Cập nhật tổng giá trị giỏ hàng
+                        getTotalPrice()
                     } else {
                         Log.e("CartViewModel", "Error removing from cart: ${response.code()} - ${response.message()}")
                     }
@@ -102,14 +103,10 @@ class CartViewModel() : ViewModel() {
         return false
     }
 
-    // Cập nhật tổng giá trị giỏ hàng
-
-
     fun getTotalPrice(): Double {
         return _cartItems.value.sumOf { it.price.toDouble() }
     }
 
-    // Thêm sản phẩm vào giỏ hàng và cập nhật UI
     fun addToCart(product: Product, quantity: Int = 1) {
         val currentUser = FirebaseAuth.getInstance().currentUser
         val userName = currentUser?.displayName ?: ""
@@ -127,7 +124,7 @@ class CartViewModel() : ViewModel() {
                                 price = product.price,
                                 image = product.image
                             )
-                            getTotalPrice() // Cập nhật tổng giá trị giỏ hàng
+                            getTotalPrice()
                         } else {
                             Log.e("CartViewModel", "Error adding to cart: ${response.code()} - ${response.message()}")
                         }

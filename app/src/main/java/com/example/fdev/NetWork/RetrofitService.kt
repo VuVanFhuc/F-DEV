@@ -4,7 +4,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 open class RetrofitService {
     private val retrofit: Retrofit = Retrofit.Builder()
-        .baseUrl("http://10.0.2.2:3001/")
+        .baseUrl("http://192.168.61.144:3001/")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
     val fdevApiService: ApiService by lazy {
