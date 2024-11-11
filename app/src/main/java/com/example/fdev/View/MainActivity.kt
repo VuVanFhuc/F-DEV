@@ -82,7 +82,7 @@ class MainActivity : ComponentActivity() {
                 LayoutRegisterScreen(navController = navController)
             }
             composable(Router.PRODUCT.name) {
-                LayoutProductScreen(navController = navController,cartViewModel=cartViewModel)
+                LayoutProductScreen(navController = navController, cartViewModel = cartViewModel)
             }
             composable(Router.HELP.name) {
                 LayoutHelp(navController = navController)
@@ -146,7 +146,8 @@ class MainActivity : ComponentActivity() {
                 val productId = backStackEntry.arguments?.getString("productId") ?: ""
                 val productName = backStackEntry.arguments?.getString("productName") ?: ""
                 val productPrice = backStackEntry.arguments?.getString("productPrice") ?: ""
-                val productDescription = backStackEntry.arguments?.getString("productDescription") ?: ""
+                val productDescription =
+                    backStackEntry.arguments?.getString("productDescription") ?: ""
                 val productImage = backStackEntry.arguments?.getString("productImage") ?: ""
 
                 UpdateProductScreenAdmin(
@@ -155,10 +156,29 @@ class MainActivity : ComponentActivity() {
                     productPrice,
                     productDescription,
                     productImage,
-                    navController=navController
+                    navController = navController
                 )
             }
 
+            composable("updateProductDesigner/{designId}/{designName}/{designPrice}/{designDescription}/{designImageUri}") { backStackEntry ->
+                val designId = backStackEntry.arguments?.getString("designId")
+                val designName = backStackEntry.arguments?.getString("designName")
+                val designPrice = backStackEntry.arguments?.getString("designPrice")
+                val designDescription = backStackEntry.arguments?.getString("designDescription")
+                val designImageUri = backStackEntry.arguments?.getString("designImageUri")
+
+                // Kiểm tra nếu tất cả các tham số cần thiết đều có giá trị
+                if (designId != null && designName != null && designPrice != null && designDescription != null && designImageUri != null) {
+                    UpdateProductScreenDesigner(
+                        navController = navController,
+                        designId = designId,  // Truyền designId vào màn hình
+                        designName = designName,
+                        designPrice = designPrice,
+                        designDescription = designDescription,
+                        designImageUri = designImageUri
+                    )
+                }
+            }
 
             composable(ROUTER.CONGRATSADMIN.name) {
                 CongratsAdminScreen(navController)
@@ -174,6 +194,9 @@ class MainActivity : ComponentActivity() {
                 HomeDesignScreen(navController = navController)
             }
 
+            composable(ROUTER.PRODUCTDESIGNER.name) {
+                ProductDesigner(navController)
+            }
         }
     }
 
@@ -201,6 +224,7 @@ class MainActivity : ComponentActivity() {
         ProductAdmin1,
         BILL,
         PROFILE,
+        PRODUCTDESIGNER,
         ADDDESIGN,
         HOMEDESIGN,
         PRIVACYPOICY,

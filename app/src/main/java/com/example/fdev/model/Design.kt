@@ -1,5 +1,18 @@
 package com.example.fdev.model
 
+import java.io.Serializable
+
+
+// Data class cho đối tượng Product
+data class Design(
+    val id: String,
+    val name: String,
+    val price: Number,
+    val description: String,
+    val image: String,
+    val type: String,
+) : Serializable
+
 // Model cho yêu cầu thêm mới sản phẩm (DesignRequest)
 data class DesignRequest(
     val name: String,             // Tên sản phẩm
@@ -17,7 +30,7 @@ data class DesignResponse(
     val description: String,      // Mô tả sản phẩm
     val image: String,            // Đường dẫn ảnh sản phẩm
     val type: String?             // Loại sản phẩm
-)
+): Serializable
 data class DesignResponseWrapper(
     val data: List<DesignResponse>  // Dữ liệu của thiết kế
 )

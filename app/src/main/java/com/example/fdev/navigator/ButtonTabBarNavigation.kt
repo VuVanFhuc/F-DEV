@@ -28,12 +28,13 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.fdev.R
 import com.example.fdev.View.Admin.AddProductScreen
+import com.example.fdev.View.Design.AddDesignScreen
 import com.example.fdev.View.User.FavoritesScreen
 import com.example.fdev.View.User.LayoutHomeScreen
 import com.example.fdev.View.User.NotificationScreen
 import com.example.fdev.View.User.ProfileScreen
 import com.example.fdev.View.User.SearchScreen
-import com.example.fdev.View.designer.AddProductDeignerScreen
+
 import com.google.firebase.auth.FirebaseAuth
 
 
@@ -46,6 +47,7 @@ enum class ROUTER {
     ADDPRODUCT,
     CONGRATSADMIN,
     ADDPRODUCTDESIGNER,
+    PRODUCTDESIGNER
 
 }
 
@@ -187,6 +189,7 @@ fun GetLayoutButtonBarNavigator(navHostController: NavHostController) {
                         indicatorColor = Color.White
                     )
                 )
+
                 NavigationBarItem(
                     selected = isSelected == ROUTER.search.name,
                     onClick = {
@@ -255,7 +258,7 @@ fun GetLayoutButtonBarNavigator(navHostController: NavHostController) {
                 } else {
                     if (isDesigner) {
                         composable(ROUTER.ADDPRODUCTDESIGNER.name) {
-                            AddProductDeignerScreen(navHostController)
+                            AddDesignScreen(navHostController)
                         }
                     } else {
                         composable(ROUTER.favourite.name) {

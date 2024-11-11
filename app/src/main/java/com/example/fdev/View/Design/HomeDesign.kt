@@ -26,15 +26,17 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType.Companion.Uri
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import coil.compose.rememberImagePainter
 import com.example.fdev.model.DesignResponse
 import com.example.fdev.R
 
 @Composable
-fun HomeDesignScreen(navController: NavHostController, viewModel: DesignViewModel = androidx.lifecycle.viewmodel.compose.viewModel()) {
+fun HomeDesignScreen(navController: NavHostController, viewModel: DesignViewModel = viewModel()) {
     val context = LocalContext.current
     val designs by viewModel.designResponse.observeAsState(emptyList())
     val errorMessage by viewModel.errorMessage.observeAsState("")
@@ -122,7 +124,6 @@ fun HomeDesignScreen(navController: NavHostController, viewModel: DesignViewMode
         }
     }
 }
-
 @Composable
 fun DesignCard(design: DesignResponse, navController: NavHostController) {
     val imagePainter = rememberImagePainter(design.image)
@@ -138,16 +139,17 @@ fun DesignCard(design: DesignResponse, navController: NavHostController) {
         ) {
             Image(
                 modifier = Modifier
-                    .width(200.dp) // Thay đổi chiều rộng
-                    .height(250.dp) // Thay đổi chiều cao
+                    .width(200.dp)
+                    .height(250.dp)
                     .clip(shape = RoundedCornerShape(15.dp))
                     .clickable {
-                        // Handle click, navigate to design detail screen
-                        navController.navigate("DesignDetail/${design.id}")
+                        navController.currentBackStackEntry?.savedStateHandle?.set("design", design)
+                        // Set design data in savedStateHandle and navigate to ProductDesigner
+                        navController.navigate("PRODUCTDESIGNER")
                     },
                 painter = imagePainter,
                 contentDescription = null,
-                contentScale = ContentScale.Crop // Thay đổi sang Crop nếu bạn muốn cắt ảnh
+                contentScale = ContentScale.Crop
             )
         }
 
