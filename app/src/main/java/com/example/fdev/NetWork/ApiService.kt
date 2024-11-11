@@ -39,7 +39,7 @@ interface ApiService {
     @DELETE("/cart/remove-from-cart/{userName}/{productName}")
     suspend fun removeFromCart(
         @Path("userName") userName: String,
-        @Path("productName") productName: String
+        @Path("productName") productName: String,
     ): Response<CartResponse>
 
     // hiển thị comment
@@ -53,7 +53,7 @@ interface ApiService {
     @DELETE("/favourite/remove-from-favourite/{userName}/{productName}")
     suspend fun removeFromFavourite(
         @Path("userName") userName: String,
-        @Path("productName") productName: String
+        @Path("productName") productName: String,
     ): Response<FavouriteResponse>
 
     @POST("/cart/add-all-from-favourite")
@@ -67,11 +67,13 @@ interface ApiService {
     @DELETE("/product/delete-product/{id}")
     suspend fun deleteProduct(@Path("id") id: String): Response<Void>
 
+
+
     // Cập nhật sản phẩm
     @PUT("/product/update-product/{id}")
     suspend fun updateProduct(
         @Path("id") id: String,
-        @Body product: ProductAdminRequest
+        @Body product: ProductAdminRequest,
     ): Response<ProductAdminResponse>
 
     //    payment
@@ -83,18 +85,34 @@ interface ApiService {
 
     // Lấy danh sách Design
 
-        @GET("design/get-list-design")
-        suspend fun getDesigns(): Response<DesignResponseWrapper>
+    @GET("design/get-list-design")
+    suspend fun getDesigns(): Response<DesignResponseWrapper>
 
-        @Multipart
-        @POST("design/add-design")
-        suspend fun addDesign(
-            @Part("name") name: RequestBody,
-            @Part("price") price: RequestBody,
-            @Part("description") description: RequestBody,
-            @Part image: MultipartBody.Part,
-            @Part("type") type: RequestBody?
-        ): Response<DesignResponse>
+    @Multipart
+    @POST("design/add-design")
+    suspend fun addDesign(
+        @Part("name") name: RequestBody,
+        @Part("price") price: RequestBody,
+        @Part("description") description: RequestBody,
+        @Part image: MultipartBody.Part,
+        @Part("type") type: RequestBody?,
+    ): Response<DesignResponse>
+
+    // API xóa sản phẩm theo ID
+    @DELETE("design/delete-design/{id}")
+    suspend fun deleteDesign(@Path("id") id: String): Response<Void>
+
+    // API cập nhật sản phẩm theo ID
+    @Multipart
+    @PUT("design/update-design/{id}")
+    suspend fun updateDesign(
+        @Path("id") id: String,
+        @Part("name") name: RequestBody,
+        @Part("price") price: RequestBody,
+        @Part("description") description: RequestBody,
+        @Part image: MultipartBody.Part?,
+        @Part("type") type: RequestBody? = null
+    ): Response<DesignResponse>
 
 }
 

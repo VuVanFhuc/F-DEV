@@ -3,7 +3,6 @@ package com.example.fdev.View
 
 import CartViewModel
 import RetrofitService
-import UpdateProductScreenDesigner
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -41,7 +40,8 @@ import com.example.fdev.View.User.PaymentMethodScreen
 import com.example.fdev.View.User.ProfileScreen
 import com.example.fdev.View.User.ReviewScreen
 import com.example.fdev.View.User.SearchScreen
-import com.example.fdev.View.designer.ProductDesigner
+import com.example.fdev.View.Design.ProductDesigner
+import com.example.fdev.View.Design.UpdateProductScreenDesigner
 import com.example.fdev.navigator.GetLayoutButtonBarNavigator
 import com.example.fdev.navigator.ROUTER
 import com.example.fdev.ViewModel.ProductAdminViewModel
@@ -62,7 +62,8 @@ class MainActivity : ComponentActivity() {
         val navController = rememberNavController()
         val retrofitService = RetrofitService() // Initialize RetrofitService
         val cartViewModel = CartViewModel() // Initialize CartViewModel
-        val productAdminViewModel: ProductAdminViewModel = viewModel() // Initialize ProductAdminViewModel
+        val productAdminViewModel: ProductAdminViewModel =
+            viewModel() // Initialize ProductAdminViewModel
 
         NavHost(navController = navController, startDestination = Router.WELCOME.name) {
             composable(Router.WELCOME.name) {
@@ -81,7 +82,7 @@ class MainActivity : ComponentActivity() {
                 LayoutRegisterScreen(navController = navController)
             }
             composable(Router.PRODUCT.name) {
-                LayoutProductScreen(navController = navController,cartViewModel=cartViewModel)
+                LayoutProductScreen(navController = navController, cartViewModel = cartViewModel)
             }
             composable(Router.HELP.name) {
                 LayoutHelp(navController = navController)
@@ -100,13 +101,17 @@ class MainActivity : ComponentActivity() {
                 arguments = listOf(navArgument("totalPrice") { type = NavType.StringType })
             ) { backStackEntry ->
                 val totalPrice = backStackEntry.arguments?.getString("totalPrice") ?: "0.0"
-                CheckoutScreen(navController = navController,retrofitService=retrofitService ,totalPrice = totalPrice)
+                CheckoutScreen(
+                    navController = navController,
+                    retrofitService = retrofitService,
+                    totalPrice = totalPrice
+                )
             }
             composable(Router.FAVORITES.name) {
                 FavoritesScreen(navController = navController)
             }
             composable(Router.SEARCH.name) {
-                SearchScreen(navController = navController,retrofitService=retrofitService)
+                SearchScreen(navController = navController, retrofitService = retrofitService)
             }
             composable(Router.NOTIFICATIONS.name) {
                 NotificationScreen(navController = navController)
@@ -118,28 +123,33 @@ class MainActivity : ComponentActivity() {
                 PaymentMethodScreen(navController = navController)
             }
             composable(Router.ADDPAYMENTMETHOD.name) {
-                AddPaymentMethod(navController = navController,retrofitService=retrofitService)
+                AddPaymentMethod(navController = navController, retrofitService = retrofitService)
             }
             composable(Router.REVIEW.name + "/{productId}") { backStackEntry ->
                 val productId = backStackEntry.arguments?.getString("productId") ?: ""
-                ReviewScreen(navController = navController,productId=productId, productName = String())
+                ReviewScreen(
+                    navController = navController,
+                    productId = productId,
+                    productName = String()
+                )
             }
 
             composable(Router.ACCOUNTS.name) {
                 LayoutAccounts(navController = navController)
             }
             composable(Router.BILL.name) {
-                LayoutBillScreen(navController=navController)
+                LayoutBillScreen(navController = navController)
             }
             composable(Router.PROFILE.name) {
-                ProfileScreen(navController=navController)
+                ProfileScreen(navController = navController)
             }
 
             composable("updateProduct/{productId}/{productName}/{productPrice}/{productDescription}/{productImage}") { backStackEntry ->
                 val productId = backStackEntry.arguments?.getString("productId") ?: ""
                 val productName = backStackEntry.arguments?.getString("productName") ?: ""
                 val productPrice = backStackEntry.arguments?.getString("productPrice") ?: ""
-                val productDescription = backStackEntry.arguments?.getString("productDescription") ?: ""
+                val productDescription =
+                    backStackEntry.arguments?.getString("productDescription") ?: ""
                 val productImage = backStackEntry.arguments?.getString("productImage") ?: ""
 
                 UpdateProductScreenAdmin(
@@ -148,18 +158,28 @@ class MainActivity : ComponentActivity() {
                     productPrice,
                     productDescription,
                     productImage,
-                    navController=navController
+                    navController = navController
                 )
             }
 
+            composable("updateProductDesigner/{designId}/{designName}/{designPrice}/{designDescription}/{designImageUri}") { backStackEntry ->
+                val designId = backStackEntry.arguments?.getString("designId")
+                val designName = backStackEntry.arguments?.getString("designName")
+                val designPrice = backStackEntry.arguments?.getString("designPrice")
+                val designDescription = backStackEntry.arguments?.getString("designDescription")
+                val designImageUri = backStackEntry.arguments?.getString("designImageUri")
 
-            composable("updateProductDesigner/{productId}/{productName}/{productPrice}/{productDescription}/{productType}") { backStackEntry ->
-                val productId = backStackEntry.arguments?.getString("productId") ?: ""
-                val productName = backStackEntry.arguments?.getString("productName") ?: ""
-                val productPrice = backStackEntry.arguments?.getString("productPrice") ?: ""
-                val productDescription = backStackEntry.arguments?.getString("productDescription") ?: ""
-                val productType = backStackEntry.arguments?.getString("productType") ?: ""
-                UpdateProductScreenDesigner(productId, productName, productPrice, productDescription, productType,productAdminViewModel, navController)
+                // Kiểm tra nếu tất cả các tham số cần thiết đều có giá trị
+                if (designId != null && designName != null && designPrice != null && designDescription != null && designImageUri != null) {
+                    UpdateProductScreenDesigner(
+                        navController = navController,
+                        designId = designId,  // Truyền designId vào màn hình
+                        designName = designName,
+                        designPrice = designPrice,
+                        designDescription = designDescription,
+                        designImageUri = designImageUri
+                    )
+                }
             }
 
             composable(ROUTER.CONGRATSADMIN.name) {

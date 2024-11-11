@@ -1,8 +1,10 @@
-package com.example.fdev.View.designer
+package com.example.fdev.View.Design
 
 
 import CartViewModel
-import android.widget.Toast
+import DesignViewModel
+import android.net.Uri
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -31,21 +33,19 @@ import androidx.navigation.NavHostController
 import coil.compose.rememberImagePainter
 import com.example.fdev.R
 import com.example.fdev.ViewModel.ProductAdminViewModel
+import com.example.fdev.model.Design
+import com.example.fdev.model.DesignRequest
+import com.example.fdev.model.DesignResponse
 import com.example.fdev.model.Product
-
 
 @Composable
 fun ProductDesigner(navController: NavHostController) {
-    // Khởi tạo ProductAdminViewModel
-    val productAdminViewModel: ProductAdminViewModel = viewModel()
-    val cartViewModel: CartViewModel = viewModel()
+    val designViewModel: DesignViewModel = viewModel()  // Sử dụng DesignViewModel
     val scrollState = rememberScrollState()
-    val product = navController.previousBackStackEntry?.savedStateHandle?.get<Product>("product")
+    val design = navController.previousBackStackEntry?.savedStateHandle?.get<DesignResponse>("design")
     val context = LocalContext.current
 
-
     var showDialog by remember { mutableStateOf(false) }
-
 
     Column(
         modifier = Modifier
@@ -60,8 +60,7 @@ fun ProductDesigner(navController: NavHostController) {
                 .padding(top = 30.dp),
             contentAlignment = Alignment.TopCenter
         ) {
-            // Image display
-            product?.let {
+            design?.let {
                 Image(
                     painter = rememberImagePainter(data = it.image),
                     contentDescription = null,
@@ -69,46 +68,31 @@ fun ProductDesigner(navController: NavHostController) {
                         .padding(start = 65.dp)
                         .fillMaxSize()
                         .width(200.dp)
-                        .clip(
-                            shape = RoundedCornerShape(bottomStart = 50.dp)
-                        ),
+                        .clip(RoundedCornerShape(bottomStart = 50.dp)),
                     contentScale = ContentScale.Crop
                 )
             }
 
-
             // Back button
             IconButton(
-                onClick = {
-                    navController.popBackStack()
-                },
+                onClick = { navController.popBackStack() },
                 modifier = Modifier
                     .padding(end = 260.dp, top = 20.dp)
-                    .shadow(
-                        elevation = 3.dp,
-                        shape = RoundedCornerShape(10.dp)
-                    )
-                    .background(
-                        color = Color.White,
-                        shape = RoundedCornerShape(10.dp)
-                    )
+                    .shadow(elevation = 3.dp, shape = RoundedCornerShape(10.dp))
+                    .background(color = Color.White, shape = RoundedCornerShape(10.dp))
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.icon_back),
                     contentDescription = null,
-                    modifier = Modifier.size(15.dp, 15.dp)
+                    modifier = Modifier.size(15.dp)
                 )
             }
-
 
             // Radio buttons
             Column(
                 modifier = Modifier
                     .padding(end = 260.dp, top = 120.dp)
-                    .shadow(
-                        elevation = 3.dp,
-                        shape = RoundedCornerShape(30.dp)
-                    )
+                    .shadow(elevation = 3.dp, shape = RoundedCornerShape(30.dp))
                     .background(color = Color.White, shape = RoundedCornerShape(10.dp))
                     .padding(10.dp)
             ) {
@@ -135,14 +119,13 @@ fun ProductDesigner(navController: NavHostController) {
             }
         }
 
-
         // Product details
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(start = 15.dp, top = 20.dp)
         ) {
-            product?.let {
+            design?.let {
                 Text(
                     text = it.name,
                     fontWeight = FontWeight(500),
@@ -151,7 +134,6 @@ fun ProductDesigner(navController: NavHostController) {
                 )
             }
 
-
             Row(
                 modifier = Modifier
                     .padding(top = 10.dp)
@@ -159,7 +141,7 @@ fun ProductDesigner(navController: NavHostController) {
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                product?.let {
+                design?.let {
                     Text(
                         text = "${it.price}",
                         fontFamily = FontFamily.Serif,
@@ -168,7 +150,6 @@ fun ProductDesigner(navController: NavHostController) {
                     )
                 }
             }
-
 
             // Star rating
             Row(
@@ -197,10 +178,9 @@ fun ProductDesigner(navController: NavHostController) {
                 Spacer(modifier = Modifier.weight(1f))
             }
 
-
             // Product description
             Text(
-                text = product?.description ?: "",
+                text = design?.description ?: "",
                 modifier = Modifier.padding(top = 20.dp),
                 textAlign = TextAlign.Justify,
                 fontSize = 17.sp,
@@ -208,7 +188,6 @@ fun ProductDesigner(navController: NavHostController) {
                 lineHeight = 22.sp,
                 fontFamily = FontFamily.Serif
             )
-
 
             // Favourite and Add to Cart buttons
             Row(
@@ -224,7 +203,6 @@ fun ProductDesigner(navController: NavHostController) {
                         .weight(1f)
                         .height(60.dp)
                         .clickable {
-                            // Show confirmation dialog
                             showDialog = true
                         },
                     contentAlignment = Alignment.Center
@@ -243,9 +221,10 @@ fun ProductDesigner(navController: NavHostController) {
                         .weight(1f)
                         .height(60.dp)
                         .clickable {
-                            product?.let {
-                                // Truyền thông tin sản phẩm khi nhấn nút "Update to cart"
-                                navController.navigate("updateProductDesigner/${it.id}/${it.name}/${it.price}/${it.description}/${it.type}")
+                            // Gọi updateDesign khi người dùng nhấn Update
+                            design?.let {
+                                Log.e("data", "ID: " + it)
+                                navController.navigate("updateProductDesigner/${it.id}/${Uri.encode(it.name)}/${it.price}/${Uri.encode(it.description)}/${Uri.encode(it.image)}")
                             }
                         },
                     contentAlignment = Alignment.Center
@@ -258,18 +237,17 @@ fun ProductDesigner(navController: NavHostController) {
                 }
             }
 
-
             // Confirmation dialog
             if (showDialog) {
                 AlertDialog(
                     onDismissRequest = { showDialog = false },
                     title = { Text(text = "Xác nhận xóa sản phẩm") },
-                    text = { Text("Bạn có chắc chắn muốn xóa sản phẩm '${product?.let { it.name }}'  không?") },
+                    text = { Text("Bạn có chắc chắn muốn xóa sản phẩm này không?") },
                     confirmButton = {
                         TextButton(
                             onClick = {
-                                product?.let {
-                                    productAdminViewModel.deleteProduct(it.id)
+                                design?.let {
+                                    designViewModel.deleteDesign(it.id)
                                 }
                                 showDialog = false
                                 navController.navigate("CONGRATSADMIN") // Navigate to previous screen
@@ -290,7 +268,6 @@ fun ProductDesigner(navController: NavHostController) {
         }
     }
 }
-
 
 // Reuse CustomRadioButton component
 @Composable
@@ -320,6 +297,8 @@ fun CustomRadioButton(
         }
     }
 }
+
+
 
 
 
