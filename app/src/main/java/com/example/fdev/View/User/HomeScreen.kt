@@ -94,15 +94,27 @@ fun LayoutHomeScreen(navController: NavHostController, retrofitService: Retrofit
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            IconButton(onClick = { /*TODO*/ }) {
+            if (!isAdmin && !isDesigner) {
+
+                Image(painter = painterResource(id = R.drawable.camera),
+                    contentDescription = "",
+                    modifier = Modifier
+                        .size(40.dp)
+                        .padding(start = 10.dp)
+                        .clickable { navController.navigate("HOMEDESIGN") }
+                )
+
+            } else {
                 Icon(
-                    painter = painterResource(id = R.drawable.search_anh),
+                    painter = painterResource(id = R.drawable.person),
                     contentDescription = null,
-                    modifier = Modifier.size(20.dp, 20.dp),
+                    modifier = Modifier
+                        .size(40.dp)
+                        .padding(start = 10.dp),
                     tint = Color(0xff808080)
                 )
-            }
 
+            }
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -122,24 +134,27 @@ fun LayoutHomeScreen(navController: NavHostController, retrofitService: Retrofit
             }
             if (!isAdmin && !isDesigner) {
 
-                Image(painter = painterResource(id = R.drawable.camera),
-                    contentDescription = "",
-                    modifier = Modifier
-                        .size(20.dp)
-                        .clickable { navController.navigate("HOMEDESIGN") }
-                )
-
-            }else{
                 IconButton(onClick = {
-                    navController.navigate("PROFILE")
+                    navController.navigate("CART")
                 }) {
                     Icon(
-                        painter = painterResource(id = R.drawable.person),
+                        painter = painterResource(id = R.drawable.shopping),
                         contentDescription = null,
                         modifier = Modifier.size(20.dp, 20.dp),
                         tint = Color(0xff808080)
                     )
                 }
+
+            } else {
+                IconButton(onClick = { /*TODO*/ }) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.search_anh),
+                        contentDescription = null,
+                        modifier = Modifier.size(20.dp, 20.dp),
+                        tint = Color(0xff808080)
+                    )
+                }
+
             }
 
 

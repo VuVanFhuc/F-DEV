@@ -92,6 +92,7 @@ fun CartScreen(
                 ) {
                     Text("Thanh toán", color = Color.White)
                 }
+                Spacer(modifier = Modifier.height(50.dp))
             }
         }
     ) { innerPadding ->

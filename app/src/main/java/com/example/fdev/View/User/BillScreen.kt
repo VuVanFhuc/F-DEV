@@ -7,6 +7,7 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -90,13 +91,13 @@ fun LayoutBillScreen(navController: NavHostController,cartViewModel: CartViewMod
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        IconButton(onClick = {
-                            navController.popBackStack()
-                        }) {
-                            Icon(Icons.Default.ArrowBack, contentDescription = "Back")
-                        }
+//                        IconButton(onClick = {
+//                            navController.popBackStack()
+//                        }) {
+//                            Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+//                        }
                         Text(
-                            text = "Bill",
+                            text = "Hóa đơn thanh toán của bạn",
                             style = MaterialTheme.typography.headlineSmall,
                             textAlign = TextAlign.Center,
                             modifier = Modifier.weight(1f)
@@ -156,15 +157,18 @@ fun LayoutBillScreen(navController: NavHostController,cartViewModel: CartViewMod
 
 
                 Button(
-                    onClick = {  },  // Điều hướng đến màn hình thanh toán
+                    onClick = {
+                        navController.navigate("CONGRATSSCREEN")
+                    },  // Điều hướng đến màn hình thanh toán
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(56.dp),
                     shape = RoundedCornerShape(12.dp),
                     colors = ButtonDefaults.buttonColors(containerColor = Color.Black)
                 ) {
-                    Text("Tải xuống", color = Color.White)
+                    Text("OK, hiểu rồi", color = Color.White)
                 }
+                Spacer(modifier = Modifier.height(50.dp))
             }
         }
     ) {innerPadding ->
