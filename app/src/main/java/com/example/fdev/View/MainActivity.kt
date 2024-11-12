@@ -22,6 +22,7 @@ import com.example.fdev.View.Design.AddDesignScreen
 import com.example.fdev.View.Design.HomeDesignScreen
 import com.example.fdev.View.Design.ProductDesigner
 import com.example.fdev.View.Design.UpdateProductScreenDesigner
+import com.example.fdev.View.Design.ViewProductDetailsDesigner
 import com.example.fdev.View.User.AddPaymentMethod
 import com.example.fdev.View.User.CartScreen
 import com.example.fdev.View.User.CheckoutScreen
@@ -143,6 +144,9 @@ class MainActivity : ComponentActivity() {
             composable(Router.PRIVACYPOICY.name) {
                 PrivacyPolicyScreen(navController=navController)
             }
+            composable(Router.VIEWProductDetailsDesigner.name) {
+                ViewProductDetailsDesigner(navController = navController, cartViewModel = cartViewModel)
+            }
 
             composable("updateProduct/{productId}/{productName}/{productPrice}/{productDescription}/{productImage}") { backStackEntry ->
                 val productId = backStackEntry.arguments?.getString("productId") ?: ""
@@ -230,5 +234,6 @@ class MainActivity : ComponentActivity() {
         ADDDESIGN,
         HOMEDESIGN,
         PRIVACYPOICY,
+        VIEWProductDetailsDesigner,
     }
 }

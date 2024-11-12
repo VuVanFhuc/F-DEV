@@ -47,47 +47,47 @@ fun HomeDesignScreen(navController: NavHostController, viewModel: DesignViewMode
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(top = 30.dp)
+            .padding(top = 40.dp)
     ) {
         // Title Row (with search and profile icons)
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 10.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            IconButton(onClick = { /* Handle Search */ }) {
-                Icon(
-                    painter = painterResource(id = R.drawable.search_anh),
-                    contentDescription = null,
-                    modifier = Modifier.size(20.dp),
-                    tint = Color(0xff808080)
-                )
-            }
-
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(
-                    text = "Make home",
-                    style = TextStyle(fontSize = 15.sp, color = Color(0xff909090))
-                )
-                Text(
-                    text = "DESIGN",
-                    style = TextStyle(fontSize = 18.sp, fontWeight = FontWeight.Bold)
-                )
-            }
-
-            IconButton(onClick = { navController.navigate("PROFILE") }) {
-                Icon(
-                    painter = painterResource(id = R.drawable.person),
-                    contentDescription = null,
-                    modifier = Modifier.size(20.dp),
-                    tint = Color(0xff808080)
-                )
-            }
-        }
+//        Row(
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .padding(top = 10.dp),
+//            horizontalArrangement = Arrangement.SpaceBetween,
+//            verticalAlignment = Alignment.CenterVertically
+//        ) {
+//            IconButton(onClick = { /* Handle Search */ }) {
+//                Icon(
+//                    painter = painterResource(id = R.drawable.search_anh),
+//                    contentDescription = null,
+//                    modifier = Modifier.size(20.dp),
+//                    tint = Color(0xff808080)
+//                )
+//            }
+//
+//            Column(
+//                horizontalAlignment = Alignment.CenterHorizontally
+//            ) {
+//                Text(
+//                    text = "Make home",
+//                    style = TextStyle(fontSize = 15.sp, color = Color(0xff909090))
+//                )
+//                Text(
+//                    text = "DESIGN",
+//                    style = TextStyle(fontSize = 18.sp, fontWeight = FontWeight.Bold)
+//                )
+//            }
+//
+//            IconButton(onClick = { navController.navigate("PROFILE") }) {
+//                Icon(
+//                    painter = painterResource(id = R.drawable.person),
+//                    contentDescription = null,
+//                    modifier = Modifier.size(20.dp),
+//                    tint = Color(0xff808080)
+//                )
+//            }
+//        }
 
         // Display Designs in a grid
         LazyVerticalGrid(
@@ -124,7 +124,7 @@ fun DesignCard(design: DesignResponse, navController: NavHostController, isDesig
                         if (isDesigner) {
                             navController.navigate("PRODUCTDESIGNER")
                         } else {
-                            navController.navigate("PRODUCT")
+                            navController.navigate("VIEWProductDetailsDesigner")
                         }
                     },
                 painter = imagePainter,

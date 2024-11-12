@@ -1,8 +1,6 @@
 package com.example.fdev.View.User
 
 
-
-
 import RetrofitService
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -53,8 +51,6 @@ import com.example.fdev.ViewModel.ProductViewModel
 import com.example.fdev.components.BannerComponent
 import com.example.fdev.model.Product
 import com.google.firebase.auth.FirebaseAuth
-
-
 
 
 @Composable
@@ -124,19 +120,30 @@ fun LayoutHomeScreen(navController: NavHostController, retrofitService: Retrofit
                     fontWeight = FontWeight(700)
                 )
             }
+            if (!isAdmin && !isDesigner) {
 
-            IconButton(onClick = {
-                navController.navigate("PROFILE")
-            }) {
-                Icon(
-                    painter = painterResource(id = R.drawable.person),
-                    contentDescription = null,
-                    modifier = Modifier.size(20.dp, 20.dp),
-                    tint = Color(0xff808080)
+                Image(painter = painterResource(id = R.drawable.camera),
+                    contentDescription = "",
+                    modifier = Modifier
+                        .size(20.dp)
+                        .clickable { navController.navigate("HOMEDESIGN") }
                 )
-            }
-        }
 
+            }else{
+                IconButton(onClick = {
+                    navController.navigate("PROFILE")
+                }) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.person),
+                        contentDescription = null,
+                        modifier = Modifier.size(20.dp, 20.dp),
+                        tint = Color(0xff808080)
+                    )
+                }
+            }
+
+
+        }
         // Type
         Row(
             modifier = Modifier
@@ -148,18 +155,6 @@ fun LayoutHomeScreen(navController: NavHostController, retrofitService: Retrofit
             BannerComponent()
         }
 
-        // Conditional display of "Xem thêm"
-        if (!isAdmin && !isDesigner) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable { navController.navigate("HOMEDESIGN") },
-                horizontalArrangement = Arrangement.End
-            ) {
-                Text("Xem thêm")
-                Image(painter = painterResource(id = R.drawable.next), contentDescription = "", modifier = Modifier.size(20.dp))
-            }
-        }
 
         // ListProduct: Thay đổi để hiển thị sản phẩm từ API
         Column(
