@@ -1,14 +1,16 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.google.gms.google.services)
 }
+
 
 android {
     namespace = "com.example.fdev"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.fdev"
+        applicationId = "com.example.imtatechFDEV"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
@@ -59,6 +61,12 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.navigation.runtime.ktx)
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.firestore.ktx)
+    implementation(libs.places)
+    implementation(libs.androidx.runtime.livedata)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -66,4 +74,29 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    // Retrofit
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.okhttp3:okhttp:4.9.1")
+    implementation("com.squareup.okhttp3:okhttp:4.9.1")
+
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    // Gson Converter for Retrofit
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
+    //Declare library here
+    implementation("androidx.navigation:navigation-compose:2.7.1")
+    implementation("io.coil-kt:coil-compose:2.4.0")
+    implementation("com.github.bumptech.glide:glide:4.14.2")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.14.2")
+    implementation("com.squareup.picasso:picasso:2.71828")
+    implementation("com.squareup.okhttp3:okhttp:4.10.0")
+
+    //firebase
+    implementation(platform("com.google.firebase:firebase-bom:33.3.0"))
+    implementation("com.google.firebase:firebase-analytics")
+    // firebase authen
+    implementation("com.google.firebase:firebase-auth")
+    //thư viện tải ảnh
+    implementation ("com.github.bumptech.glide:glide:4.14.2")
+    annotationProcessor ("com.github.bumptech.glide:compiler:4.14.2")
 }
